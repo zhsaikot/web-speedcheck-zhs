@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Page Speed Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff007f;
+            --neon-purple: #7000ff;
+            --bg-dark: #05050a;
+            --glass-bg: rgba(15, 15, 25, 0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* Futuristic Grid Background */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+        }
+
+        /* Glowing Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: var(--neon-cyan); top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: var(--neon-magenta); bottom: -150px; right: -150px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Neon Input & Button */
+        .neon-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .neon-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+            outline: none;
+        }
+
+        .neon-btn {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .neon-btn:hover:not(:disabled) {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .neon-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Score Circle Animation */
+        .score-circle {
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Loading Scanner */
+        .scanner {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .scanner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            animation: scan 1.5s infinite linear;
+        }
+        @keyframes scan {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        /* Metric Bars */
+        .metric-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .metric-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease-out;
+        }
+
+        /* Device Icon styling */
+        .device-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Header -->
+    <header class="p-6 md:p-8 text-center">
+        <h1 class="font-orbitron text-3xl md:text-5xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_10px_rgba(0,243,255,0.3)]">
+            NEXUS // SPEED
+        </h1>
+        <p class="text-slate-400 mt-2 text-sm md:text-base tracking-wide">QUANTUM PAGE PERFORMANCE ANALYZER</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col items-center px-4 pb-8 max-w-6xl mx-auto w-full">
+        
+        <!-- Input Section -->
+        <div class="w-full glass-card rounded-2xl p-6 md:p-8 mb-8">
+            <label class="block text-xs font-orbitron text-cyan-400 mb-3 tracking-widest">TARGET URL</label>
+            <div class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="url" 
+                    id="urlInput" 
+                    placeholder="https://example.com" 
+                    class="neon-input flex-1 px-5 py-4 rounded-xl text-white text-lg placeholder-slate-600"
+                >
+                <button 
+                    id="scanBtn" 
+                    onclick="runScan()" 
+                    class="neon-btn px-8 py-4 rounded-xl font-orbitron font-bold text-white text-sm tracking-widest shadow-lg"
+                >
+                    INITIATE SCAN
+                </button>
+            </div>
+            <div id="loadingBar" class="scanner mt-6 hidden"></div>
+            <p id="statusText" class="text-xs text-slate-500 mt-3 h-4"></p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsContainer" class="w-full hidden space-y-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- MOBILE PERFORMANCE CARD -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="device-icon text-cyan-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                            </div>
+                            <h3 class="font-orbitron text-sm text-cyan-400 tracking-widest">MOBILE</h3>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono">STRATEGY: MOBILE</span>
+                    </div>
+
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="relative w-36 h-36">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" />
+                                <circle id="mobile-scoreCircle" class="score-circle" cx="50" cy="50" r="45" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="mobile-scoreValue" class="font-orbitron text-4xl font-black text-white">0</span>
+                                <span class="text-xs text-slate-400 mt-1">/ 100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 flex-1">
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">LCP</span>
+                                <span id="mobile-lcpValue" class="font-orbitron text-xs text-cyan-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-lcpBar" class="metric-fill bg-cyan-400" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">INP</span>
+                                <span id="mobile-inpValue" class="font-orbitron text-xs text-purple-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-inpBar" class="metric-fill bg-purple-500" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">CLS</span>
+                                <span id="mobile-clsValue" class="font-orbitron text-xs text-pink-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-clsBar" class="metric-fill bg-pink-500" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DESKTOP PERFORMANCE CARD -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="device-icon text-purple-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                            </div>
+                            <h3 class="font-orbitron text-sm text-purple-400 tracking-widest">DESKTOP</h3>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono">STRATEGY: DESKTOP</span>
+                    </div>
+
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="relative w-36 h-36">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8" />
+                                <circle id="desktop-scoreCircle" class="score-circle" cx="50" cy="50" r="45" fill="none" stroke="url(#gradient2)" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" />
+                                <defs>
+                                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#7000ff" />
+                                        <stop offset="100%" stop-color="#ff007f" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="desktop-scoreValue" class="font-orbitron text-4xl font-black text-white">0</span>
+                                <span class="text-xs text-slate-400 mt-1">/ 100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 flex-1">
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">LCP</span>
+                                <span id="desktop-lcpValue" class="font-orbitron text-xs text-cyan-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-lcpBar" class="metric-fill bg-cyan-400" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">INP</span>
+                                <span id="desktop-inpValue" class="font-orbitron text-xs text-purple-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-inpBar" class="metric-fill bg-purple-500" style="width: 0%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1.5">
+                                <span class="text-xs font-semibold text-slate-300">CLS</span>
+                                <span id="desktop-clsValue" class="font-orbitron text-xs text-pink-400">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-clsBar" class="metric-fill bg-pink-500" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Diagnostics Grid -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="font-orbitron text-xs text-cyan-400 tracking-widest mb-6">DETAILED DIAGNOSTICS</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <p class="text-xs text-slate-500 mb-1">First Contentful Paint</p>
+                        <div class="flex justify-between items-end">
+                            <p id="fcpValue" class="font-orbitron text-lg text-white">-</p>
+                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        </div>
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <p class="text-xs text-slate-500 mb-1">Time to Interactive</p>
+                        <div class="flex justify-between items-end">
+                            <p id="ttiValue" class="font-orbitron text-lg text-white">-</p>
+                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        </div>
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <p class="text-xs text-slate-500 mb-1">Total Blocking Time</p>
+                        <div class="flex justify-between items-end">
+                            <p id="tbtValue" class="font-orbitron text-lg text-white">-</p>
+                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        </div>
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                        <p class="text-xs text-slate-500 mb-1">Speed Index</p>
+                        <div class="flex justify-between items-end">
+                            <p id="siValue" class="font-orbitron text-lg text-white">-</p>
+                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center border-t border-white/5 mt-auto">
+        <p class="text-xs text-slate-500 tracking-widest font-orbitron">
+            DESIGNED & DEVELOPED BY <span class="text-cyan-400">MD. ZIAUL HASAN</span>
+        </p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // API KEY CONFIGURED
+        // ==========================================
+        const API_KEY = "AIzaSyBIcgNa89iM0flD1Q9JXmfyUuGOwyr-erI"; 
+
+        const urlInput = document.getElementById('urlInput');
+        const scanBtn = document.getElementById('scanBtn');
+        const loadingBar = document.getElementById('loadingBar');
+        const statusText = document.getElementById('statusText');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        async function runScan() {
+            const url = urlInput.value.trim();
+            if (!url) {
+                statusText.textContent = "ERROR: Target URL is required.";
+                statusText.className = "text-xs text-red-400 mt-3 h-4";
+                return;
+            }
+
+            // UI Loading State
+            scanBtn.disabled = true;
+            scanBtn.textContent = "SCANNING...";
+            loadingBar.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            statusText.textContent = "Establishing quantum link... analyzing target (Mobile & Desktop).";
+            statusText.className = "text-xs text-cyan-400 mt-3 h-4";
+
+            try {
+                const baseUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&key=${API_KEY}`;
+                const mobileUrl = `${baseUrl}&strategy=mobile`;
+                const desktopUrl = `${baseUrl}&strategy=desktop`;
+
+                // Fetch both simultaneously
+                const [mobileRes, desktopRes] = await Promise.all([
+                    fetch(mobileUrl),
+                    fetch(desktopUrl)
+                ]);
+
+                if (!mobileRes.ok || !desktopRes.ok) {
+                    const errRes = mobileRes.ok ? desktopRes : mobileRes;
+                    const errData = await errRes.json();
+                    throw new Error(errData.error.message || "API request failed. Check URL.");
+                }
+
+                const mobileData = await mobileRes.json();
+                const desktopData = await desktopRes.json();
+
+                if (!mobileData.lighthouseResult || !desktopData.lighthouseResult) {
+                    throw new Error("Lighthouse data missing from response.");
+                }
+
+                updateScorecard('mobile', mobileData.lighthouseResult);
+                updateScorecard('desktop', desktopData.lighthouseResult);
+                
+                statusText.textContent = "Scan complete. Data stream secured.";
+                statusText.className = "text-xs text-green-400 mt-3 h-4";
+
+            } catch (error) {
+                console.error(error);
+                statusText.textContent = `ERROR: ${error.message}`;
+                statusText.className = "text-xs text-red-400 mt-3 h-4";
+            } finally {
+                scanBtn.disabled = false;
+                scanBtn.textContent = "INITIATE SCAN";
+                loadingBar.classList.add('hidden');
+            }
+        }
+
+        function updateScorecard(type, lighthouse) {
+            resultsContainer.classList.remove('hidden');
+
+            // 1. Performance Score
+            const perfScore = Math.round(lighthouse.categories.performance.score * 100);
+            const scoreCircle = document.getElementById(`${type}-scoreCircle`);
+            const scoreValue = document.getElementById(`${type}-scoreValue`);
+            
+            const circumference = 283;
+            const offset = circumference - (perfScore / 100) * circumference;
+            scoreCircle.style.strokeDashoffset = offset;
+            animateValue(scoreValue, 0, perfScore, 1500);
+
+            // 2. Core Web Vitals
+            const audits = lighthouse.audits;
+            
+            const lcp = audits['largest-contentful-paint'].numericValue;
+            document.getElementById(`${type}-lcpValue`).textContent = `${(lcp / 1000).toFixed(1)}s`;
+            document.getElementById(`${type}-lcpBar`).style.width = `${Math.min(100, (lcp / 4000) * 100)}%`;
+
+            const inp = audits['interaction-to-next-paint'] ? audits['interaction-to-next-paint'].numericValue : audits['max-potential-fid'].numericValue;
+            document.getElementById(`${type}-inpValue`).textContent = `${Math.round(inp)}ms`;
+            document.getElementById(`${type}-inpBar`).style.width = `${Math.min(100, (inp / 500) * 100)}%`;
+
+            const cls = audits['cumulative-layout-shift'].numericValue;
+            document.getElementById(`${type}-clsValue`).textContent = cls.toFixed(3);
+            document.getElementById(`${type}-clsBar`).style.width = `${Math.min(100, (cls / 0.25) * 100)}%`;
+
+            // 3. Diagnostics (We just show the first one fetched for the detailed grid to keep it clean, 
+            // or we could show both. For simplicity, we'll update it with the latest data).
+            if(type === 'mobile') {
+                document.getElementById('fcpValue').textContent = `${(audits['first-contentful-paint'].numericValue / 1000).toFixed(1)}s`;
+                document.getElementById('ttiValue').textContent = `${(audits['interactive'].numericValue / 1000).toFixed(1)}s`;
+                document.getElementById('tbtValue').textContent = `${Math.round(audits['total-blocking-time'].numericValue)}ms`;
+                document.getElementById('siValue').textContent = `${(audits['speed-index'].numericValue / 1000).toFixed(1)}s`;
+            }
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.textContent = end;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        urlInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') runScan();
+        });
+    </script>
+</body>
+</html>
