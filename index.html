@@ -300,33 +300,87 @@
             <!-- Detailed Diagnostics Grid -->
             <div class="glass-card rounded-2xl p-6">
                 <h3 class="font-orbitron text-xs text-cyan-400 tracking-widest mb-6">DETAILED DIAGNOSTICS</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
-                        <p class="text-xs text-slate-500 mb-1">First Contentful Paint</p>
-                        <div class="flex justify-between items-end">
-                            <p id="fcpValue" class="font-orbitron text-lg text-white">-</p>
-                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                
+                <!-- Mobile Diagnostics -->
+                <div class="mb-8">
+                    <h4 class="font-orbitron text-xs text-cyan-400 tracking-widest mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                        MOBILE METRICS
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">First Contentful Paint</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="mobile-fcpValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="mobile-fcpScore" class="text-[10px] px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-fcpBar" class="metric-fill bg-cyan-400" style="width: 0%"></div></div>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Time to Interactive</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="mobile-ttiValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="mobile-ttiScore" class="text-[10px] px-2 py-1 rounded bg-purple-500/20 text-purple-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-ttiBar" class="metric-fill bg-purple-500" style="width: 0%"></div></div>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Total Blocking Time</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="mobile-tbtValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="mobile-tbtScore" class="text-[10px] px-2 py-1 rounded bg-pink-500/20 text-pink-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-tbtBar" class="metric-fill bg-pink-500" style="width: 0%"></div></div>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Speed Index</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="mobile-siValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="mobile-siScore" class="text-[10px] px-2 py-1 rounded bg-green-500/20 text-green-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="mobile-siBar" class="metric-fill bg-green-500" style="width: 0%"></div></div>
                         </div>
                     </div>
-                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
-                        <p class="text-xs text-slate-500 mb-1">Time to Interactive</p>
-                        <div class="flex justify-between items-end">
-                            <p id="ttiValue" class="font-orbitron text-lg text-white">-</p>
-                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                </div>
+
+                <!-- Desktop Diagnostics -->
+                <div>
+                    <h4 class="font-orbitron text-xs text-purple-400 tracking-widest mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                        DESKTOP METRICS
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">First Contentful Paint</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="desktop-fcpValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="desktop-fcpScore" class="text-[10px] px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-fcpBar" class="metric-fill bg-cyan-400" style="width: 0%"></div></div>
                         </div>
-                    </div>
-                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
-                        <p class="text-xs text-slate-500 mb-1">Total Blocking Time</p>
-                        <div class="flex justify-between items-end">
-                            <p id="tbtValue" class="font-orbitron text-lg text-white">-</p>
-                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Time to Interactive</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="desktop-ttiValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="desktop-ttiScore" class="text-[10px] px-2 py-1 rounded bg-purple-500/20 text-purple-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-ttiBar" class="metric-fill bg-purple-500" style="width: 0%"></div></div>
                         </div>
-                    </div>
-                    <div class="bg-black/30 p-4 rounded-xl border border-white/5">
-                        <p class="text-xs text-slate-500 mb-1">Speed Index</p>
-                        <div class="flex justify-between items-end">
-                            <p id="siValue" class="font-orbitron text-lg text-white">-</p>
-                            <span class="text-[10px] text-slate-600">MOB / DESK</span>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Total Blocking Time</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="desktop-tbtValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="desktop-tbtScore" class="text-[10px] px-2 py-1 rounded bg-pink-500/20 text-pink-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-tbtBar" class="metric-fill bg-pink-500" style="width: 0%"></div></div>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <p class="text-xs text-slate-500 mb-1">Speed Index</p>
+                            <div class="flex justify-between items-end mb-2">
+                                <p id="desktop-siValue" class="font-orbitron text-lg text-white">-</p>
+                                <span id="desktop-siScore" class="text-[10px] px-2 py-1 rounded bg-green-500/20 text-green-400 font-bold">-</span>
+                            </div>
+                            <div class="metric-bar"><div id="desktop-siBar" class="metric-fill bg-green-500" style="width: 0%"></div></div>
                         </div>
                     </div>
                 </div>
@@ -410,6 +464,41 @@
             }
         }
 
+        function getScoreColor(score) {
+            if (score >= 90) return { bg: 'bg-green-500/20', text: 'text-green-400' };
+            if (score >= 50) return { bg: 'bg-yellow-500/20', text: 'text-yellow-400' };
+            return { bg: 'bg-red-500/20', text: 'text-red-400' };
+        }
+
+        function updateMetricWithScore(type, metricId, value, unit, maxThreshold, auditName) {
+            const audit = lighthouse.audits[auditName];
+            const numericValue = audit.numericValue;
+            const score = Math.round(audit.score * 100);
+            
+            // Format value display
+            let displayValue;
+            if (unit === 's') {
+                displayValue = `${(numericValue / 1000).toFixed(1)}${unit}`;
+            } else if (unit === 'ms') {
+                displayValue = `${Math.round(numericValue)}${unit}`;
+            } else {
+                displayValue = numericValue.toFixed(3);
+            }
+            
+            // Update value element
+            document.getElementById(`${type}-${metricId}Value`).textContent = displayValue;
+            
+            // Update score badge
+            const scoreEl = document.getElementById(`${type}-${metricId}Score`);
+            scoreEl.textContent = score;
+            const colors = getScoreColor(score);
+            scoreEl.className = `text-[10px] px-2 py-1 rounded font-bold ${colors.bg} ${colors.text}`;
+            
+            // Update progress bar
+            const barWidth = Math.min(100, (numericValue / maxThreshold) * 100);
+            document.getElementById(`${type}-${metricId}Bar`).style.width = `${barWidth}%`;
+        }
+
         function updateScorecard(type, lighthouse) {
             resultsContainer.classList.remove('hidden');
 
@@ -438,14 +527,42 @@
             document.getElementById(`${type}-clsValue`).textContent = cls.toFixed(3);
             document.getElementById(`${type}-clsBar`).style.width = `${Math.min(100, (cls / 0.25) * 100)}%`;
 
-            // 3. Diagnostics (We just show the first one fetched for the detailed grid to keep it clean, 
-            // or we could show both. For simplicity, we'll update it with the latest data).
-            if(type === 'mobile') {
-                document.getElementById('fcpValue').textContent = `${(audits['first-contentful-paint'].numericValue / 1000).toFixed(1)}s`;
-                document.getElementById('ttiValue').textContent = `${(audits['interactive'].numericValue / 1000).toFixed(1)}s`;
-                document.getElementById('tbtValue').textContent = `${Math.round(audits['total-blocking-time'].numericValue)}ms`;
-                document.getElementById('siValue').textContent = `${(audits['speed-index'].numericValue / 1000).toFixed(1)}s`;
-            }
+            // 3. Detailed Diagnostics with Scores
+            // FCP
+            const fcpAudit = audits['first-contentful-paint'];
+            const fcpScore = Math.round(fcpAudit.score * 100);
+            document.getElementById(`${type}-fcpValue`).textContent = `${(fcpAudit.numericValue / 1000).toFixed(1)}s`;
+            document.getElementById(`${type}-fcpScore`).textContent = fcpScore;
+            const fcpColors = getScoreColor(fcpScore);
+            document.getElementById(`${type}-fcpScore`).className = `text-[10px] px-2 py-1 rounded font-bold ${fcpColors.bg} ${fcpColors.text}`;
+            document.getElementById(`${type}-fcpBar`).style.width = `${Math.min(100, (fcpAudit.numericValue / 3000) * 100)}%`;
+            
+            // TTI
+            const ttiAudit = audits['interactive'];
+            const ttiScore = Math.round(ttiAudit.score * 100);
+            document.getElementById(`${type}-ttiValue`).textContent = `${(ttiAudit.numericValue / 1000).toFixed(1)}s`;
+            document.getElementById(`${type}-ttiScore`).textContent = ttiScore;
+            const ttiColors = getScoreColor(ttiScore);
+            document.getElementById(`${type}-ttiScore`).className = `text-[10px] px-2 py-1 rounded font-bold ${ttiColors.bg} ${ttiColors.text}`;
+            document.getElementById(`${type}-ttiBar`).style.width = `${Math.min(100, (ttiAudit.numericValue / 7000) * 100)}%`;
+            
+            // TBT
+            const tbtAudit = audits['total-blocking-time'];
+            const tbtScore = Math.round(tbtAudit.score * 100);
+            document.getElementById(`${type}-tbtValue`).textContent = `${Math.round(tbtAudit.numericValue)}ms`;
+            document.getElementById(`${type}-tbtScore`).textContent = tbtScore;
+            const tbtColors = getScoreColor(tbtScore);
+            document.getElementById(`${type}-tbtScore`).className = `text-[10px] px-2 py-1 rounded font-bold ${tbtColors.bg} ${tbtColors.text}`;
+            document.getElementById(`${type}-tbtBar`).style.width = `${Math.min(100, (tbtAudit.numericValue / 600) * 100)}%`;
+            
+            // SI
+            const siAudit = audits['speed-index'];
+            const siScore = Math.round(siAudit.score * 100);
+            document.getElementById(`${type}-siValue`).textContent = `${(siAudit.numericValue / 1000).toFixed(1)}s`;
+            document.getElementById(`${type}-siScore`).textContent = siScore;
+            const siColors = getScoreColor(siScore);
+            document.getElementById(`${type}-siScore`).className = `text-[10px] px-2 py-1 rounded font-bold ${siColors.bg} ${siColors.text}`;
+            document.getElementById(`${type}-siBar`).style.width = `${Math.min(100, (siAudit.numericValue / 7000) * 100)}%`;
         }
 
         function animateValue(obj, start, end, duration) {
