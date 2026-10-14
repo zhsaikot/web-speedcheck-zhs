@@ -308,50 +308,50 @@
         <!-- Audit Results Container (hidden initially) -->
         <div id="resultsContainer" class="hidden space-y-6 sm:space-y-8">
 
-            <!-- URL Header & Strategy Selector Bar -->
-            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex items-center gap-3.5 min-w-0">
-                    <div id="pageFaviconContainer" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 overflow-hidden text-blue-600">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- URL Header & Strategy Selector Bar (Sticky below main header) -->
+            <div id="stickyDeviceBar" class="sticky top-16 z-30 bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-sm flex items-center justify-between gap-3 sm:gap-4 transition-all">
+                <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                    <div id="pageFaviconContainer" class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 overflow-hidden text-blue-600">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
                         </svg>
                     </div>
                     <div class="min-w-0">
-                        <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">Report for</span>
-                            <span id="testedTime" class="text-[11px] text-slate-400">Just now</span>
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">Report for</span>
+                            <span id="testedTime" class="text-[10px] sm:text-[11px] text-slate-400">Just now</span>
                         </div>
-                        <h2 id="testedUrlTitle" class="text-base sm:text-lg font-bold text-slate-900 truncate">
+                        <h2 id="testedUrlTitle" class="text-sm sm:text-base md:text-lg font-bold text-slate-900 truncate max-w-[130px] xs:max-w-[200px] sm:max-w-xs md:max-w-md">
                             <a id="testedUrlLink" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors">https://example.com</a>
                         </h2>
                     </div>
                 </div>
 
-                <!-- Device Strategy Tabs (Mobile-responsive full-width on mobile) -->
-                <div class="grid grid-cols-2 sm:flex sm:items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 text-xs font-semibold shrink-0">
+                <!-- Device Strategy Tabs -->
+                <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 text-xs font-semibold shrink-0">
                     <button 
                         id="tabMobileBtn" 
                         onclick="switchStrategy('mobile')" 
-                        class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold"
+                        class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold cursor-pointer"
                     >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <rect width="14" height="20" x="5" y="2" rx="2" ry="2" stroke-width="2"></rect>
                             <path d="M12 18h.01" stroke-width="2"></path>
                         </svg>
                         <span>Mobile</span>
-                        <span id="tabMobileScoreBadge" class="ml-1 text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-100 text-slate-700">--</span>
+                        <span id="tabMobileScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-100 text-slate-700">--</span>
                     </button>
                     <button 
                         id="tabDesktopBtn" 
                         onclick="switchStrategy('desktop')" 
-                        class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900"
+                        class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
                     >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <rect width="20" height="14" x="2" y="3" rx="2" stroke-width="2"></rect>
                             <path d="M8 21h8M12 17v4" stroke-width="2"></path>
                         </svg>
                         <span>Desktop</span>
-                        <span id="tabDesktopScoreBadge" class="ml-1 text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-200 text-slate-700">--</span>
+                        <span id="tabDesktopScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-200 text-slate-700">--</span>
                     </button>
                 </div>
             </div>
@@ -934,11 +934,11 @@
             const desktopBtn = document.getElementById('tabDesktopBtn');
 
             if (strategy === 'mobile') {
-                mobileBtn.className = "flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold";
-                desktopBtn.className = "flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900";
+                mobileBtn.className = "flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold cursor-pointer";
+                desktopBtn.className = "flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer";
             } else {
-                desktopBtn.className = "flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold";
-                mobileBtn.className = "flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900";
+                desktopBtn.className = "flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold cursor-pointer";
+                mobileBtn.className = "flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer";
             }
 
             renderStrategy(strategy);
