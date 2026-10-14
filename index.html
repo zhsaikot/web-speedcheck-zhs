@@ -680,16 +680,24 @@
                 welcomePlaceholder.classList.add('hidden');
                 resultsContainer.classList.remove('hidden');
 
-                document.getElementById('testedUrlTitle').textContent = rawUrl;
-                document.getElementById('testedUrlLink').href = rawUrl;
-                document.getElementById('testedTime').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const urlLink = document.getElementById('testedUrlLink');
+                if (urlLink) {
+                    urlLink.textContent = rawUrl;
+                    urlLink.href = rawUrl;
+                }
+                const testedTimeEl = document.getElementById('testedTime');
+                if (testedTimeEl) {
+                    testedTimeEl.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
 
                 // Update tab score badges
-                const mobilePerf = auditResults.mobile ? Math.round(auditResults.mobile.categories.performance.score * 100) : '--';
-                const desktopPerf = auditResults.desktop ? Math.round(auditResults.desktop.categories.performance.score * 100) : '--';
+                const mobilePerf = auditResults.mobile?.categories?.performance?.score != null ? Math.round(auditResults.mobile.categories.performance.score * 100) : '--';
+                const desktopPerf = auditResults.desktop?.categories?.performance?.score != null ? Math.round(auditResults.desktop.categories.performance.score * 100) : '--';
                 
-                document.getElementById('tabMobileScoreBadge').textContent = mobilePerf;
-                document.getElementById('tabDesktopScoreBadge').textContent = desktopPerf;
+                const tabMobileBadge = document.getElementById('tabMobileScoreBadge');
+                if (tabMobileBadge) tabMobileBadge.textContent = mobilePerf;
+                const tabDesktopBadge = document.getElementById('tabDesktopScoreBadge');
+                if (tabDesktopBadge) tabDesktopBadge.textContent = desktopPerf;
 
                 // Apply strategy render
                 renderStrategy(activeStrategy);
@@ -836,7 +844,9 @@
             const badgeEl = document.getElementById(`${prefix}-badge`);
             const iconEl = document.getElementById(`${prefix}-icon`);
 
-            if (!audit) {
+            if (!valEl || !badgeEl || !iconEl) return;
+
+            if (!audit || audit.numericValue === undefined || audit.numericValue === null || isNaN(audit.numericValue)) {
                 valEl.textContent = 'N/A';
                 badgeEl.textContent = '--';
                 return;
@@ -845,7 +855,11 @@
             const score = Math.round((audit.score || 0) * 100);
             const rating = getRatingInfo(score);
 
-            valEl.textContent = formatFn(audit.numericValue);
+            try {
+                valEl.textContent = formatFn(audit.numericValue);
+            } catch (_) {
+                valEl.textContent = `${audit.numericValue}`;
+            }
             badgeEl.textContent = rating.label;
             badgeEl.className = `text-[10px] font-bold px-2 py-0.5 rounded ${rating.badgeClass}`;
 
