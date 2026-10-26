@@ -281,6 +281,41 @@
             </div>
         </div>
 
+        <!-- Recent Audits History Section (Max 10 items) -->
+        <div id="historySection" class="hidden max-w-4xl mx-auto mb-8 transition-all no-print">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm">
+                <!-- Header -->
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-bold text-slate-800">Recent Audits</h3>
+                        <span id="historyCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">0/10</span>
+                    </div>
+                    <button 
+                        type="button" 
+                        onclick="clearAllHistory()" 
+                        id="clearHistoryBtn" 
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                        title="Clear all recent audits"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        <span>Clear History</span>
+                    </button>
+                </div>
+
+                <!-- History Items Grid -->
+                <div id="historyList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </div>
+
         <!-- Welcome Placeholder (shown before any scan) -->
         <div id="welcomePlaceholder" class="text-center py-12 sm:py-16 px-4">
             <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-blue-50 text-blue-600 flex items-center justify-center mb-5 border border-blue-100 shadow-sm">
@@ -908,6 +943,9 @@
                 const tabDesktopBadge = document.getElementById('tabDesktopScoreBadge');
                 if (tabDesktopBadge) tabDesktopBadge.textContent = desktopPerf;
 
+                // Save to Recent Audits History (Max 10)
+                saveToHistory(rawUrl, mobilePerf, desktopPerf);
+
                 // Apply strategy render
                 renderStrategy(activeStrategy);
 
@@ -1356,6 +1394,143 @@
             };
             window.requestAnimationFrame(step);
         }
+
+        // ==========================================
+        // RECENT AUDITS HISTORY (localStorage)
+        // ==========================================
+        const HISTORY_KEY = 'speedcheck_zhs_history';
+
+        function getHistory() {
+            try {
+                const stored = localStorage.getItem(HISTORY_KEY);
+                return stored ? JSON.parse(stored) : [];
+            } catch (_) {
+                return [];
+            }
+        }
+
+        function getScoreBadgeClass(score) {
+            const num = typeof score === 'number' ? score : parseInt(score);
+            if (isNaN(num)) return 'bg-slate-100 text-slate-600 border-slate-200';
+            if (num >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+            if (num >= 50) return 'bg-amber-50 text-amber-700 border-amber-200';
+            return 'bg-red-50 text-red-700 border-red-200';
+        }
+
+        function saveToHistory(url, mobileScore, desktopScore) {
+            try {
+                let history = getHistory();
+                const cleanUrl = url.trim();
+                // Remove existing entry for same url (case-insensitive)
+                history = history.filter(item => item.url.toLowerCase() !== cleanUrl.toLowerCase());
+
+                const now = new Date();
+                const formattedDate = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+                const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                history.unshift({
+                    id: Date.now(),
+                    url: cleanUrl,
+                    time: `${formattedDate}, ${formattedTime}`,
+                    mobileScore: mobileScore,
+                    desktopScore: desktopScore
+                });
+
+                // Keep max 10
+                if (history.length > 10) {
+                    history = history.slice(0, 10);
+                }
+
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+                renderHistory();
+            } catch (err) {
+                console.error("Failed to save history:", err);
+            }
+        }
+
+        function renderHistory() {
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+            const historyCountBadge = document.getElementById('historyCountBadge');
+            if (!historySection || !historyList) return;
+
+            const history = getHistory();
+            if (!history || history.length === 0) {
+                historySection.classList.add('hidden');
+                historyList.innerHTML = '';
+                if (historyCountBadge) historyCountBadge.textContent = '0/10';
+                return;
+            }
+
+            historySection.classList.remove('hidden');
+            if (historyCountBadge) historyCountBadge.textContent = `${history.length}/10`;
+
+            historyList.innerHTML = history.map(item => {
+                const displayHost = item.url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+                const mobClass = getScoreBadgeClass(item.mobileScore);
+                const deskClass = getScoreBadgeClass(item.desktopScore);
+
+                return `
+                    <div onclick="retestFromHistory('${encodeURIComponent(item.url)}')" class="group flex items-center justify-between p-2.5 sm:p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-blue-200 hover:shadow-xs transition-all cursor-pointer">
+                        <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-xs font-semibold text-slate-800 truncate group-hover:text-blue-600 transition-colors" title="${item.url}">${displayHost}</p>
+                                <p class="text-[10px] text-slate-400">${item.time || 'Recently'}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${mobClass}" title="Mobile Score">📱 ${item.mobileScore}</span>
+                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${deskClass}" title="Desktop Score">💻 ${item.desktopScore}</span>
+                            <button type="button" onclick="deleteHistoryItem(${item.id}, event)" class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-70 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer" title="Delete this entry">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function clearAllHistory() {
+            if (confirm("Are you sure you want to clear your recent scan history?")) {
+                try {
+                    localStorage.removeItem(HISTORY_KEY);
+                    renderHistory();
+                } catch (err) {
+                    console.error("Failed to clear history:", err);
+                }
+            }
+        }
+
+        function deleteHistoryItem(id, event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            try {
+                let history = getHistory();
+                history = history.filter(item => item.id !== id);
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+                renderHistory();
+            } catch (err) {
+                console.error("Failed to delete history item:", err);
+            }
+        }
+
+        function retestFromHistory(encodedUrl) {
+            const url = decodeURIComponent(encodedUrl);
+            urlInput.value = url;
+            runScan();
+        }
+
+        // Initialize history on page load
+        renderHistory();
     </script>
 </body>
 </html>

@@ -28,6 +28,7 @@ Audits any live website URL for both **Mobile** and **Desktop** environments usi
 - 🛠️ **Technical Diagnostics:** Deep-dive into DOM size, cache policies, font-display, main-thread work, etc.
 - ✅ **Passed Audits:** Collapsible section displaying all passing checks.
 - 📱 / 💻 **Mobile & Desktop Switching:** Runs audits in parallel and switches strategies instantly with zero reload delay.
+- 🕒 **Recent Audits History (Last 10 Scans):** Automatically saves the last 10 tested websites in local storage with mobile & desktop scores, timestamps, 1-click re-testing, and a "Clear History" button.
 - 🖨️ **Print & PDF Export:** Clean print stylesheet to easily save or share PDF reports.
 
 ---
