@@ -127,6 +127,13 @@
 
                 <!-- Right Header Actions -->
                 <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button id="openHistoryBtn" onclick="toggleHistoryDrawer()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-all cursor-pointer" title="View Recent Scans History">
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>History</span>
+                        <span id="navHistoryBadge" class="hidden text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-700">0</span>
+                    </button>
                     <button id="printBtn" onclick="window.print()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-all">
                         <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
@@ -202,6 +209,14 @@
                 <button type="button" onclick="testUrl('https://wikipedia.org')" class="text-slate-600 hover:text-blue-600 underline font-medium">wikipedia.org</button>
                 <span>&bull;</span>
                 <button type="button" onclick="testUrl('https://bankheadortho.com')" class="text-slate-600 hover:text-blue-600 underline font-medium">bankheadortho.com</button>
+                <span>&bull;</span>
+                <button type="button" id="quickHistoryBtn" onclick="toggleHistoryDrawer()" class="text-blue-600 hover:text-blue-700 font-semibold inline-flex items-center gap-1 cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Recent Scans</span>
+                    <span id="subHistoryBadge" class="hidden text-[10px] px-1.5 py-0.2 rounded-full bg-blue-50 text-blue-600 font-bold border border-blue-100">0</span>
+                </button>
             </div>
 
             <!-- Status Banner -->
@@ -277,41 +292,6 @@
                 <div>
                     <span class="font-semibold text-blue-800">Pro Tip: </span>
                     <span id="proTipText" class="text-blue-700 transition-opacity duration-300">Largest Contentful Paint (LCP) should occur within 2.5 seconds for a fast user experience.</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Audits History Section (Max 10 items) -->
-        <div id="historySection" class="hidden max-w-4xl mx-auto mb-8 transition-all no-print">
-            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm">
-                <!-- Header -->
-                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
-                    <div class="flex items-center gap-2 sm:gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-sm font-bold text-slate-800">Recent Audits</h3>
-                        <span id="historyCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">0/10</span>
-                    </div>
-                    <button 
-                        type="button" 
-                        onclick="clearAllHistory()" 
-                        id="clearHistoryBtn" 
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
-                        title="Clear all recent audits"
-                    >
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                        <span>Clear History</span>
-                    </button>
-                </div>
-
-                <!-- History Items Grid -->
-                <div id="historyList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <!-- Populated dynamically via JS -->
                 </div>
             </div>
         </div>
@@ -713,6 +693,63 @@
             </div>
         </div>
     </footer>
+
+    <!-- History Slide-over Drawer & Backdrop -->
+    <div id="historyDrawerBackdrop" onclick="closeHistoryDrawer()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none no-print"></div>
+
+    <aside id="historyDrawer" class="fixed top-0 right-0 bottom-0 w-full sm:w-[420px] max-w-full bg-white shadow-2xl z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out border-l border-slate-200 no-print">
+        <!-- Drawer Header -->
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Audit History</h3>
+                    <p class="text-[11px] text-slate-400">Last 10 tested websites</p>
+                </div>
+                <span id="drawerHistoryCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-700 ml-1">0/10</span>
+            </div>
+            
+            <div class="flex items-center gap-1.5">
+                <button 
+                    type="button" 
+                    onclick="clearAllHistory()" 
+                    id="drawerClearHistoryBtn" 
+                    class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                    title="Clear all recent audits"
+                >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    <span>Clear</span>
+                </button>
+                <button 
+                    type="button" 
+                    id="closeHistoryDrawerBtn"
+                    onclick="closeHistoryDrawer()" 
+                    class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition-colors cursor-pointer"
+                    title="Close"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Drawer Body (Scrollable List) -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-2.5" id="drawerHistoryList">
+            <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-3.5 border-t border-slate-100 bg-slate-50/50 text-center text-[11px] text-slate-400">
+            Click any website to re-run audit immediately
+        </div>
+    </aside>
 
     <!-- JavaScript Application Logic -->
     <script>
@@ -1396,7 +1433,7 @@
         }
 
         // ==========================================
-        // RECENT AUDITS HISTORY (localStorage)
+        // RECENT AUDITS HISTORY & DRAWER (localStorage)
         // ==========================================
         const HISTORY_KEY = 'speedcheck_zhs_history';
 
@@ -1416,6 +1453,43 @@
             if (num >= 50) return 'bg-amber-50 text-amber-700 border-amber-200';
             return 'bg-red-50 text-red-700 border-red-200';
         }
+
+        function openHistoryDrawer() {
+            const drawer = document.getElementById('historyDrawer');
+            const backdrop = document.getElementById('historyDrawerBackdrop');
+            if (!drawer || !backdrop) return;
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            backdrop.classList.add('opacity-100', 'pointer-events-auto');
+            drawer.classList.remove('translate-x-full');
+            drawer.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHistoryDrawer() {
+            const drawer = document.getElementById('historyDrawer');
+            const backdrop = document.getElementById('historyDrawerBackdrop');
+            if (!drawer || !backdrop) return;
+            backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            drawer.classList.remove('translate-x-0');
+            drawer.classList.add('translate-x-full');
+            document.body.style.overflow = '';
+        }
+
+        function toggleHistoryDrawer() {
+            const drawer = document.getElementById('historyDrawer');
+            if (!drawer) return;
+            if (drawer.classList.contains('translate-x-full')) {
+                openHistoryDrawer();
+            } else {
+                closeHistoryDrawer();
+            }
+        }
+
+        // Close drawer on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeHistoryDrawer();
+        });
 
         function saveToHistory(url, mobileScore, desktopScore) {
             try {
@@ -1449,29 +1523,51 @@
         }
 
         function renderHistory() {
-            const historySection = document.getElementById('historySection');
-            const historyList = document.getElementById('historyList');
-            const historyCountBadge = document.getElementById('historyCountBadge');
-            if (!historySection || !historyList) return;
+            const listEl = document.getElementById('drawerHistoryList');
+            const drawerCountBadge = document.getElementById('drawerHistoryCountBadge');
+            const navBadge = document.getElementById('navHistoryBadge');
+            const subBadge = document.getElementById('subHistoryBadge');
 
             const history = getHistory();
-            if (!history || history.length === 0) {
-                historySection.classList.add('hidden');
-                historyList.innerHTML = '';
-                if (historyCountBadge) historyCountBadge.textContent = '0/10';
+            const count = history ? history.length : 0;
+
+            // Update badge indicators
+            if (drawerCountBadge) drawerCountBadge.textContent = `${count}/10`;
+            if (navBadge) {
+                navBadge.textContent = count;
+                if (count > 0) navBadge.classList.remove('hidden');
+                else navBadge.classList.add('hidden');
+            }
+            if (subBadge) {
+                subBadge.textContent = count;
+                if (count > 0) subBadge.classList.remove('hidden');
+                else subBadge.classList.add('hidden');
+            }
+
+            if (!listEl) return;
+
+            if (count === 0) {
+                listEl.innerHTML = `
+                    <div class="py-16 text-center">
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-sm font-semibold text-slate-700">No scan history yet</h4>
+                        <p class="text-xs text-slate-400 max-w-xs mx-auto mt-1">Websites you audit will appear here for fast 1-click re-testing.</p>
+                    </div>
+                `;
                 return;
             }
 
-            historySection.classList.remove('hidden');
-            if (historyCountBadge) historyCountBadge.textContent = `${history.length}/10`;
-
-            historyList.innerHTML = history.map(item => {
+            listEl.innerHTML = history.map(item => {
                 const displayHost = item.url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
                 const mobClass = getScoreBadgeClass(item.mobileScore);
                 const deskClass = getScoreBadgeClass(item.desktopScore);
 
                 return `
-                    <div onclick="retestFromHistory('${encodeURIComponent(item.url)}')" class="group flex items-center justify-between p-2.5 sm:p-3 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-blue-200 hover:shadow-xs transition-all cursor-pointer">
+                    <div onclick="retestFromHistory('${encodeURIComponent(item.url)}')" class="group flex items-center justify-between p-3 rounded-xl border border-slate-200/80 bg-slate-50/60 hover:bg-white hover:border-blue-300 hover:shadow-xs transition-all cursor-pointer">
                         <div class="flex items-center gap-2.5 min-w-0 pr-2">
                             <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1480,13 +1576,13 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs font-semibold text-slate-800 truncate group-hover:text-blue-600 transition-colors" title="${item.url}">${displayHost}</p>
-                                <p class="text-[10px] text-slate-400">${item.time || 'Recently'}</p>
+                                <p class="text-[10px] text-slate-400 mt-0.5">${item.time || 'Recently'}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
                             <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${mobClass}" title="Mobile Score">📱 ${item.mobileScore}</span>
                             <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${deskClass}" title="Desktop Score">💻 ${item.desktopScore}</span>
-                            <button type="button" onclick="deleteHistoryItem(${item.id}, event)" class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-70 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer" title="Delete this entry">
+                            <button type="button" onclick="deleteHistoryItem(${item.id}, event)" class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-80 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer" title="Delete this entry">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
@@ -1524,6 +1620,7 @@
         }
 
         function retestFromHistory(encodedUrl) {
+            closeHistoryDrawer();
             const url = decodeURIComponent(encodedUrl);
             urlInput.value = url;
             runScan();
