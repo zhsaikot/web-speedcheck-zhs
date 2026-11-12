@@ -342,32 +342,116 @@
                     </div>
                 </div>
 
-                <!-- Device Strategy Tabs -->
-                <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 text-xs font-semibold shrink-0">
-                    <button 
-                        id="tabMobileBtn" 
-                        onclick="switchStrategy('mobile')" 
-                        class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold cursor-pointer"
-                    >
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect width="14" height="20" x="5" y="2" rx="2" ry="2" stroke-width="2"></rect>
-                            <path d="M12 18h.01" stroke-width="2"></path>
-                        </svg>
-                        <span>Mobile</span>
-                        <span id="tabMobileScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-100 text-slate-700">--</span>
-                    </button>
-                    <button 
-                        id="tabDesktopBtn" 
-                        onclick="switchStrategy('desktop')" 
-                        class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
-                    >
-                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect width="20" height="14" x="2" y="3" rx="2" stroke-width="2"></rect>
-                            <path d="M8 21h8M12 17v4" stroke-width="2"></path>
-                        </svg>
-                        <span>Desktop</span>
-                        <span id="tabDesktopScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-200 text-slate-700">--</span>
-                    </button>
+                <!-- Right Header Actions (Device Strategy Tabs & AI Fix Plan Button) -->
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 text-xs font-semibold">
+                        <button 
+                            id="tabMobileBtn" 
+                            onclick="switchStrategy('mobile')" 
+                            class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-blue-700 bg-white shadow-xs font-bold cursor-pointer"
+                        >
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect width="14" height="20" x="5" y="2" rx="2" ry="2" stroke-width="2"></rect>
+                                <path d="M12 18h.01" stroke-width="2"></path>
+                            </svg>
+                            <span>Mobile</span>
+                            <span id="tabMobileScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-100 text-slate-700">--</span>
+                        </button>
+                        <button 
+                            id="tabDesktopBtn" 
+                            onclick="switchStrategy('desktop')" 
+                            class="flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
+                        >
+                            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect width="20" height="14" x="2" y="3" rx="2" stroke-width="2"></rect>
+                                <path d="M8 21h8M12 17v4" stroke-width="2"></path>
+                            </svg>
+                            <span>Desktop</span>
+                            <span id="tabDesktopScoreBadge" class="ml-0.5 sm:ml-1 text-[10px] sm:text-[11px] px-1.5 py-0.2 rounded font-bold bg-slate-200 text-slate-700">--</span>
+                        </button>
+                    </div>
+
+                    <!-- AI Fix Plan Dropdown -->
+                    <div class="relative" id="aiPlanDropdownWrapper">
+                        <button 
+                            id="aiPlanBtn" 
+                            type="button" 
+                            onclick="toggleAiPlanDropdown(event)" 
+                            class="inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-xs hover:shadow transition-all cursor-pointer"
+                            title="Export Universal AI Fix Prompt (.txt)"
+                        >
+                            <svg class="w-4 h-4 text-blue-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span class="hidden xs:inline">AI Fix Plan</span>
+                            <span class="xs:hidden">AI Plan</span>
+                            <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-white font-mono font-normal">.txt</span>
+                            <svg class="w-3 h-3 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div 
+                            id="aiPlanMenu" 
+                            class="hidden absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-200/90 py-2 z-50 transition-all"
+                        >
+                            <div class="px-4 py-2 border-b border-slate-100">
+                                <p class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                                    <span>🤖 Universal AI Prompt Plan</span>
+                                </p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">Feed this prompt into ChatGPT, Claude, or Cursor to implement fixes automatically.</p>
+                            </div>
+                            <div class="py-1">
+                                <button 
+                                    onclick="downloadAiPlan('combined'); closeAiPlanDropdown();" 
+                                    class="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 flex items-center gap-2.5 transition-colors cursor-pointer"
+                                >
+                                    <span class="p-1.5 rounded-lg bg-blue-100 text-blue-600 shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </span>
+                                    <div>
+                                        <div class="font-bold text-slate-800">Download Combined Plan <span class="text-[10px] text-blue-600 font-semibold">(Recommended)</span></div>
+                                        <div class="text-[10px] text-slate-400">Mobile + Desktop complete audit & code prompts</div>
+                                    </div>
+                                </button>
+                                <button 
+                                    onclick="downloadAiPlan('mobile'); closeAiPlanDropdown();" 
+                                    class="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors cursor-pointer"
+                                >
+                                    <span class="p-1.5 rounded-lg bg-slate-100 text-slate-600 shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" stroke-width="2"></rect><path d="M12 18h.01" stroke-width="2"></path></svg>
+                                    </span>
+                                    <div>
+                                        <div class="font-semibold text-slate-800">Download Mobile Plan (.txt)</div>
+                                        <div class="text-[10px] text-slate-400">Optimized for mobile 4G & Core Web Vitals</div>
+                                    </div>
+                                </button>
+                                <button 
+                                    onclick="downloadAiPlan('desktop'); closeAiPlanDropdown();" 
+                                    class="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 transition-colors cursor-pointer"
+                                >
+                                    <span class="p-1.5 rounded-lg bg-slate-100 text-slate-600 shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2" stroke-width="2"></rect><path d="M8 21h8M12 17v4" stroke-width="2"></path></svg>
+                                    </span>
+                                    <div>
+                                        <div class="font-semibold text-slate-800">Download Desktop Plan (.txt)</div>
+                                        <div class="text-[10px] text-slate-400">High-speed cable connection audit</div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="p-2 border-t border-slate-100 bg-slate-50/70 rounded-b-2xl">
+                                <button 
+                                    id="copyAiPromptBtn" 
+                                    onclick="copyAiPrompt(); closeAiPlanDropdown();" 
+                                    class="w-full py-2 px-3 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs border border-slate-200 flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
+                                >
+                                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                    <span>Copy Prompt to Clipboard</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -612,6 +696,45 @@
                 </div>
             </div>
 
+            <!-- Network & Resource Payload Breakdown Section -->
+            <div id="networkBreakdownSection" class="bg-white rounded-2xl p-5 sm:p-7 border border-slate-200 shadow-sm transition-all">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-4m3 4v-8m3 8v-2"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-900">Network & Page Weight Breakdown</h3>
+                            <span id="networkTotalRequestsBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">0 requests</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">Total size transferred over the network and resource type distribution.</p>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Total Page Weight</span>
+                        <span id="networkTotalWeight" class="text-base sm:text-lg font-black text-slate-900 font-mono">0 KB</span>
+                    </div>
+                </div>
+
+                <!-- Stacked Progress Bar -->
+                <div class="space-y-2 mb-6">
+                    <div id="resourceProgressBar" class="h-3.5 w-full bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
+                        <!-- Segments dynamically populated -->
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 font-medium px-1">
+                        <span>Distribution by asset weight</span>
+                        <span id="networkThresholdNote" class="text-slate-500 font-semibold">Recommended target: &lt; 1.6 MB</span>
+                    </div>
+                </div>
+
+                <!-- Breakdown Cards Grid -->
+                <div id="resourceCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                    <!-- Cards populated dynamically -->
+                </div>
+            </div>
+
             <!-- Opportunities Section (Page Load Savings) -->
             <div class="bg-white rounded-2xl p-5 sm:p-7 border border-slate-200 shadow-sm">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-100">
@@ -641,6 +764,30 @@
                 </div>
 
                 <div id="diagList" class="space-y-3">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Detailed Category Audits (Accessibility, Best Practices, SEO) -->
+            <div id="categoryAuditsSection" class="bg-white rounded-2xl p-5 sm:p-7 border border-slate-200 shadow-sm transition-all">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-base font-bold text-slate-900">Accessibility, Best Practices & SEO Audits</h3>
+                            <span id="catIssuesCountBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">0 issues</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">Actionable issues and warnings across usability, security, and search discoverability.</p>
+                    </div>
+                    <!-- Category Filter Buttons -->
+                    <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold overflow-x-auto">
+                        <button onclick="filterCatIssues('all')" id="catTabAll" class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-blue-700 font-bold cursor-pointer whitespace-nowrap">All</button>
+                        <button onclick="filterCatIssues('accessibility')" id="catTabA11y" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer whitespace-nowrap">Accessibility</button>
+                        <button onclick="filterCatIssues('best-practices')" id="catTabBp" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer whitespace-nowrap">Best Practices</button>
+                        <button onclick="filterCatIssues('seo')" id="catTabSeo" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer whitespace-nowrap">SEO</button>
+                    </div>
+                </div>
+
+                <div id="catIssuesList" class="space-y-3">
                     <!-- Populated dynamically via JS -->
                 </div>
             </div>
@@ -1101,6 +1248,116 @@
             }
         }
 
+        // Utility: HTML Escaping
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Utility: Byte Formatting
+        function formatBytes(bytes) {
+            if (!bytes || bytes <= 0 || isNaN(bytes)) return '0 KB';
+            if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+            return (bytes / 1024).toFixed(0) + ' KB';
+        }
+
+        // Comprehensive Dictionary of Universal Fixes and Implementations
+        const AUDIT_SOLUTIONS = {
+            'render-blocking-resources': {
+                summary: 'Defer non-critical scripts, inline critical CSS, and preload critical resources.',
+                action: '1. Add defer or async attributes to non-essential scripts:\n   <script src="app.js" defer><\/script>\n2. In Next.js, use next/script with strategy="afterInteractive" or "lazyOnload".\n3. Inline critical above-the-fold CSS directly in <head> <style> and load the rest asynchronously.\n4. In WordPress, use WP Rocket, LiteSpeed Cache, or Perfmatters to enable "Delay JavaScript Execution".'
+            },
+            'unused-javascript': {
+                summary: 'Reduce JavaScript bundle payload via code-splitting and pruning bloated libraries.',
+                action: '1. Split bundles per route with dynamic imports: const Module = dynamic(() => import("./Module")).\n2. Replace heavy legacy libraries (e.g. Moment.js -> Day.js or date-fns; Lodash -> native ES6 / lodash-es).\n3. Use Webpack Bundle Analyzer or Vite visualizer to identify oversized vendor chunks.\n4. In WordPress, use Asset CleanUp or Perfmatters to unload unused plugin scripts on pages where they are not needed.'
+            },
+            'unused-css-rules': {
+                summary: 'Purge unused CSS rules and eliminate unused stylesheet bloat.',
+                action: '1. Enable CSS tree-shaking / purge in your build tool (Tailwind purge or PurgeCSS).\n2. Separate utility CSS and component CSS to deliver only what the active page needs.\n3. Inline critical path CSS into the document <head>.'
+            },
+            'modern-image-formats': {
+                summary: 'Convert images to modern WebP or AVIF formats for 30-50% file size savings.',
+                action: '1. Convert JPG/PNG images to WebP/AVIF format.\n2. Use HTML5 <picture> with fallback:\n   <picture>\n     <source srcset="hero.avif" type="image/avif">\n     <source srcset="hero.webp" type="image/webp">\n     <img src="hero.jpg" alt="Hero" loading="eager" width="1200" height="600">\n   <\/picture>\n3. In Next.js, use next/image. In WordPress, use Imagify, ShortPixel, or LiteSpeed Cache WebP generator.'
+            },
+            'uses-optimized-images': {
+                summary: 'Compress raster images efficiently without visible quality degradation.',
+                action: '1. Compress images using Squoosh, TinyPNG, or sharp CLI with 80-85% quality factor.\n2. Strip unneeded EXIF camera metadata and color profiles from image binaries.'
+            },
+            'uses-responsive-images': {
+                summary: 'Serve appropriately sized image dimensions based on device viewport.',
+                action: '1. Provide responsive srcset and sizes attributes:\n   <img srcset="img-400.jpg 400w, img-800.jpg 800w" sizes="(max-width: 640px) 100vw, 800px" src="img-800.jpg" alt="...">\n2. Avoid loading full 2400px desktop hero images on mobile devices.'
+            },
+            'total-byte-weight': {
+                summary: 'Keep total page payload under 1,600 KB to guarantee rapid load on 4G networks.',
+                action: '1. Enable Brotli or Gzip compression on your web server (Content-Encoding: br).\n2. Lazy-load below-the-fold images and iframe embeds with loading="lazy".\n3. Compress fonts to WOFF2 and minify all HTML, CSS, and JS bundles.'
+            },
+            'uses-long-cache-ttl': {
+                summary: 'Configure strong HTTP caching headers for static assets.',
+                action: '1. For versioned/hashed assets (JS, CSS, images, fonts), set:\n   Cache-Control: public, max-age=31536000, immutable\n2. In Nginx:\n   location ~* \\.(css|js|webp|avif|woff2)$ { expires 1y; add_header Cache-Control "public, no-transform, immutable"; }\n3. In Apache .htaccess:\n   <IfModule mod_expires.c>\n     ExpiresActive On\n     ExpiresDefault "access plus 1 month"\n     ExpiresByType image/webp "access plus 1 year"\n   <\/IfModule>'
+            },
+            'server-response-time': {
+                summary: 'Optimize server response time (TTFB) to stay under 200-400ms.',
+                action: '1. Implement full-page server caching (Varnish, Redis, Nginx FastCGI cache, or WP Super Cache).\n2. Route traffic through an Edge CDN (Cloudflare, Fastly, AWS CloudFront) with cache-everything page rules.\n3. Optimize slow SQL queries and upgrade server compute/PHP memory limits.'
+            },
+            'dom-size': {
+                summary: 'Reduce excessive DOM node count and nesting depth.',
+                action: '1. Keep total DOM nodes below 800 (and depth under 32).\n2. Eliminate unnecessary nested wrapper <div>s in frontend page builders or component templates.\n3. Use virtualized lists (e.g. react-window) or pagination for long repeating content feeds.'
+            },
+            'font-display': {
+                summary: 'Prevent invisible text flashes (FOIT) with font-display: swap.',
+                action: '1. Add font-display: swap to your @font-face rules:\n   @font-face { font-family: "Custom"; font-display: swap; src: url("custom.woff2") format("woff2"); }\n2. Preload critical fonts in <head>:\n   <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>'
+            },
+            'largest-contentful-paint-element': {
+                summary: 'Prioritize and accelerate the Largest Contentful Paint (LCP) element.',
+                action: '1. Preload the LCP hero image in <head>:\n   <link rel="preload" as="image" href="/hero.webp" fetchpriority="high">\n2. Never add loading="lazy" to the above-the-fold hero element.\n3. Ensure LCP assets are served from the same domain or an ultra-low-latency CDN.'
+            },
+            'cumulative-layout-shift': {
+                summary: 'Eliminate layout instability and layout shifts during page rendering.',
+                action: '1. Always specify explicit width and height (or CSS aspect-ratio) on all <img>, <video>, and <iframe> elements.\n2. Reserve fixed container dimensions for dynamic ads and third-party widgets before they inject.'
+            },
+            'color-contrast': {
+                summary: 'Ensure foreground text contrasts adequately against background colors.',
+                action: '1. Maintain a minimum contrast ratio of 4.5:1 for standard text (3:1 for large/bold text) according to WCAG AA.\n2. Darken text color hex values or lighten background tints to satisfy contrast guidelines.'
+            },
+            'image-alt': {
+                summary: 'Supply descriptive alternative text for informative images.',
+                action: '1. Provide informative alt attributes on all content images: <img src="photo.jpg" alt="Overview of SpeedCheck Dashboard">.\n2. For purely decorative dividers, use alt="" with role="presentation" to silence screen readers.'
+            },
+            'heading-order': {
+                summary: 'Organize page headings in a strictly sequential descending order (h1, then h2, then h3).',
+                action: '1. Ensure there is exactly one <h1> element on the page describing the primary topic.\n2. Avoid skipping heading levels (e.g., jumping from <h2> directly to <h4> without an <h3>).'
+            },
+            'label': {
+                summary: 'Ensure every interactive form input has an accessible label.',
+                action: '1. Link <input id="user-email"> with <label for="user-email">Email Address<\/label>.\n2. Alternatively, provide an aria-label="..." on standalone search or filter inputs.'
+            },
+            'is-crawlable': {
+                summary: 'Ensure search engines are permitted to index and crawl page content.',
+                action: '1. Inspect robots.txt to ensure key URLs are not inadvertently blocked under Disallow rules.\n2. Confirm <meta name="robots" content="index, follow"> is active on production pages.'
+            },
+            'meta-description': {
+                summary: 'Provide a concise, high-relevance meta description tag for search engine snippets.',
+                action: '1. Include in HTML <head>:\n   <meta name="description" content="Clear, engaging overview of page content between 120 and 160 characters.">'
+            }
+        };
+
+        function getAuditSolution(auditId, audit) {
+            if (auditId && AUDIT_SOLUTIONS[auditId]) {
+                return AUDIT_SOLUTIONS[auditId];
+            }
+            return {
+                summary: audit?.title || 'Optimization Opportunity',
+                action: audit?.description
+                    ? audit.description.replace(/\\[Learn more\\].*$/i, '').trim()
+                    : 'Review the affected assets and implement Google Lighthouse best practices for network compression, caching, and clean DOM rendering.'
+            };
+        }
+
         function renderStrategy(strategy) {
             const lr = auditResults[strategy];
             if (!lr) return;
@@ -1108,7 +1365,7 @@
             document.getElementById('currentStrategyLabel').textContent = strategy.toUpperCase();
 
             // 1. Update ⭐ HERO PERFORMANCE GAUGE ⭐
-            const categories = lr.categories;
+            const categories = lr.categories || {};
             updateHeroPerformanceGauge(categories.performance?.score);
 
             // 2. Update Secondary Gauges
@@ -1117,7 +1374,7 @@
             updateGauge('gauge-seo', 'val-seo', 'badge-seo', categories.seo?.score);
 
             // 3. Quick Chips in Hero Performance Card
-            const audits = lr.audits;
+            const audits = lr.audits || {};
             const fcpVal = audits['first-contentful-paint']?.numericValue;
             const lcpVal = audits['largest-contentful-paint']?.numericValue;
             const tbtVal = audits['total-blocking-time']?.numericValue;
@@ -1158,13 +1415,19 @@
             renderMetricCard('si', audits['speed-index'], (v) => `${(v / 1000).toFixed(1)} s`);
             renderMetricCard('tti', audits['interactive'], (v) => `${(v / 1000).toFixed(1)} s`);
 
-            // 6. Opportunities (Savings)
+            // 6. Network & Page Weight Breakdown
+            renderNetworkBreakdown(audits);
+
+            // 7. Opportunities (Savings) with Inline Solution
             renderOpportunities(audits);
 
-            // 7. Diagnostics
+            // 8. Diagnostics with Inline Solution
             renderDiagnostics(audits);
 
-            // 8. Passed Audits
+            // 9. Detailed Category Audits (Accessibility, Best Practices, SEO)
+            renderCategoryIssues(lr);
+
+            // 10. Passed Audits
             renderPassedAudits(audits);
         }
 
@@ -1195,19 +1458,100 @@
             iconEl.className = `w-2.5 h-2.5 ${rating.iconClass}`;
         }
 
+        // Render Network & Resource Payload Breakdown
+        function renderNetworkBreakdown(audits) {
+            const totalWeightEl = document.getElementById('networkTotalWeight');
+            const totalRequestsBadge = document.getElementById('networkTotalRequestsBadge');
+            const progressBar = document.getElementById('resourceProgressBar');
+            const cardsGrid = document.getElementById('resourceCardsGrid');
+            const thresholdNote = document.getElementById('networkThresholdNote');
+
+            if (!totalWeightEl || !progressBar || !cardsGrid) return;
+
+            const resItems = audits['resource-summary']?.details?.items || [];
+            const totalItem = resItems.find(it => it.resourceType === 'total') || {
+                transferSize: audits['total-byte-weight']?.numericValue || 0,
+                requestCount: audits['network-requests']?.details?.items?.length || 0
+            };
+
+            const totalSize = totalItem.transferSize || 0;
+            const totalRequests = totalItem.requestCount || 0;
+
+            totalWeightEl.textContent = formatBytes(totalSize);
+            if (totalRequestsBadge) totalRequestsBadge.textContent = `${totalRequests} requests`;
+
+            if (thresholdNote) {
+                if (totalSize > 2.5 * 1024 * 1024) {
+                    thresholdNote.textContent = '⚠️ Heavy page weight (> 2.5 MB). Optimization recommended!';
+                    thresholdNote.className = 'text-red-600 font-bold';
+                } else if (totalSize > 1.6 * 1024 * 1024) {
+                    thresholdNote.textContent = 'Moderate weight (1.6 - 2.5 MB). Target is < 1.6 MB.';
+                    thresholdNote.className = 'text-amber-600 font-semibold';
+                } else {
+                    thresholdNote.textContent = '✅ Excellent lightweight page payload (< 1.6 MB)!';
+                    thresholdNote.className = 'text-emerald-600 font-bold';
+                }
+            }
+
+            // Category definitions with colors
+            const typeConfig = [
+                { type: 'script', name: 'JavaScript', color: 'bg-amber-500', textColor: 'text-amber-700', bgLight: 'bg-amber-50', border: 'border-amber-200' },
+                { type: 'image', name: 'Images', color: 'bg-emerald-500', textColor: 'text-emerald-700', bgLight: 'bg-emerald-50', border: 'border-emerald-200' },
+                { type: 'stylesheet', name: 'CSS', color: 'bg-sky-500', textColor: 'text-sky-700', bgLight: 'bg-sky-50', border: 'border-sky-200' },
+                { type: 'font', name: 'Fonts', color: 'bg-purple-500', textColor: 'text-purple-700', bgLight: 'bg-purple-50', border: 'border-purple-200' },
+                { type: 'document', name: 'HTML / Doc', color: 'bg-indigo-500', textColor: 'text-indigo-700', bgLight: 'bg-indigo-50', border: 'border-indigo-200' },
+                { type: 'other', name: 'Other', color: 'bg-slate-400', textColor: 'text-slate-700', bgLight: 'bg-slate-50', border: 'border-slate-200' }
+            ];
+
+            let progressHtml = '';
+            let cardsHtml = '';
+
+            typeConfig.forEach(cfg => {
+                const item = resItems.find(it => it.resourceType === cfg.type) || { transferSize: 0, requestCount: 0 };
+                const pct = totalSize > 0 ? ((item.transferSize / totalSize) * 100) : 0;
+                const pctStr = pct > 0 ? `${pct.toFixed(1)}%` : '0%';
+
+                if (pct > 0.5) {
+                    progressHtml += `<div class="h-full ${cfg.color} transition-all duration-500" style="width: ${pct}%;" title="${cfg.name}: ${formatBytes(item.transferSize)} (${pctStr})"></div>`;
+                }
+
+                cardsHtml += `
+                    <div class="p-3 rounded-xl border ${cfg.border} ${cfg.bgLight} flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-xs font-bold ${cfg.textColor} truncate">${cfg.name}</span>
+                            <span class="w-2 h-2 rounded-full ${cfg.color} shrink-0"></span>
+                        </div>
+                        <div>
+                            <p class="text-xs sm:text-sm font-extrabold text-slate-800 font-mono">${formatBytes(item.transferSize)}</p>
+                            <div class="flex items-center justify-between text-[10px] text-slate-500 mt-1">
+                                <span>${item.requestCount} reqs</span>
+                                <span class="font-semibold font-mono">${pctStr}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            progressBar.innerHTML = progressHtml || `<div class="h-full bg-slate-300 w-full" title="No network data"></div>`;
+            cardsGrid.innerHTML = cardsHtml;
+        }
+
         function renderOpportunities(audits) {
             const container = document.getElementById('oppsList');
             const countBadge = document.getElementById('oppsCountBadge');
             if (!container || !countBadge) return;
             container.innerHTML = '';
 
-            // Filter audits where details.type === 'opportunity' and score < 0.9
-            const opps = Object.values(audits).filter(a => 
-                a.details && 
-                a.details.type === 'opportunity' && 
-                (a.details.overallSavingsMs > 20 || a.details.overallSavingsBytes > 1024) &&
-                a.score !== null && a.score < 0.9
-            ).sort((a, b) => (b.details.overallSavingsMs || 0) - (a.details.overallSavingsMs || 0));
+            // Map entries to ensure opp.id is always available
+            const opps = Object.entries(audits)
+                .map(([id, a]) => ({ ...a, id: a.id || id }))
+                .filter(a => 
+                    a.details && 
+                    a.details.type === 'opportunity' && 
+                    (a.details.overallSavingsMs > 20 || a.details.overallSavingsBytes > 1024) &&
+                    a.score !== null && a.score < 0.9
+                )
+                .sort((a, b) => (b.details.overallSavingsMs || 0) - (a.details.overallSavingsMs || 0));
 
             countBadge.textContent = `${opps.length} suggestions`;
 
@@ -1226,16 +1570,17 @@
                     : `${(opp.details.overallSavingsBytes / 1024).toFixed(0)} KB`;
 
                 const rating = getRatingInfo(Math.round((opp.score || 0) * 100));
+                const solution = getAuditSolution(opp.id, opp);
 
                 const item = document.createElement('div');
                 item.className = "border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all";
                 item.innerHTML = `
                     <button onclick="toggleDetails('opp-${idx}')" class="w-full px-4 py-3.5 flex items-center justify-between text-left bg-white hover:bg-slate-50/50 transition-colors focus:outline-none cursor-pointer">
-                        <div class="flex items-start gap-3">
+                        <div class="flex items-start gap-3 min-w-0 pr-2">
                             <span class="w-2.5 h-2.5 mt-1.5 shrink-0 ${rating.iconClass}"></span>
-                            <div>
-                                <h4 class="text-xs sm:text-sm font-semibold text-slate-800">${opp.title || ''}</h4>
-                                <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${opp.description ? opp.description.split('[')[0] : ''}</p>
+                            <div class="min-w-0">
+                                <h4 class="text-xs sm:text-sm font-semibold text-slate-800 truncate">${escapeHtml(opp.title || '')}</h4>
+                                <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${escapeHtml(opp.description ? opp.description.split('[')[0] : '')}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 shrink-0 ml-3">
@@ -1248,8 +1593,26 @@
                         </div>
                     </button>
                     <div id="opp-${idx}" class="hidden px-4 sm:px-5 py-4 bg-slate-50 border-t border-slate-100 text-xs text-slate-600">
-                        <p class="mb-3 text-slate-700 leading-relaxed">${opp.description ? opp.description.replace(/\[Learn more\]\(.*?\)/, '') : ''}</p>
+                        <p class="mb-3 text-slate-700 leading-relaxed">${escapeHtml(opp.description ? opp.description.replace(/\\[Learn more\\].*$/i, '') : '')}</p>
                         ${renderOpportunityTable(opp.details)}
+                        
+                        <!-- Inline Solution & Action Guide Box -->
+                        <div class="mt-4 p-3.5 sm:p-4 rounded-xl bg-amber-50/80 border border-amber-200/90 text-slate-800">
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                </span>
+                                <div class="min-w-0 flex-1">
+                                    <h5 class="text-xs font-bold text-amber-900 mb-1 flex items-center gap-1.5">
+                                        <span>💡 Recommended Fix & Implementation Guide</span>
+                                    </h5>
+                                    <p class="text-xs font-semibold text-amber-800 mb-1.5">${escapeHtml(solution.summary)}</p>
+                                    <div class="text-[11px] font-mono text-amber-950/90 bg-amber-100/60 p-2.5 rounded-lg border border-amber-200/60 whitespace-pre-wrap leading-relaxed">${escapeHtml(solution.action)}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
                 container.appendChild(item);
@@ -1282,7 +1645,7 @@
 
                 tableHtml += `
                     <tr>
-                        <td class="py-2 px-3 truncate max-w-xs text-slate-700 font-sans" title="${url}">${url}</td>
+                        <td class="py-2 px-3 truncate max-w-xs text-slate-700 font-sans" title="${escapeHtml(url)}">${escapeHtml(url)}</td>
                         <td class="py-2 px-3 text-right text-slate-500">${size}</td>
                         <td class="py-2 px-3 text-right text-red-600 font-semibold">${wasted}</td>
                     </tr>
@@ -1315,14 +1678,16 @@
                 'bootup-time',
                 'uses-rel-preload',
                 'duplicated-javascript',
-                'efficient-animated-content'
+                'efficient-animated-content',
+                'server-response-time',
+                'total-byte-weight'
             ];
 
             const diags = [];
             diagKeys.forEach(k => {
                 const a = audits[k];
                 if (a && a.score !== null && a.score < 0.9) {
-                    diags.push(a);
+                    diags.push({ ...a, id: k });
                 }
             });
 
@@ -1338,16 +1703,18 @@
             }
 
             diags.forEach((diag, idx) => {
-                const displayVal = diag.displayValue ? `<span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">${diag.displayValue}</span>` : '';
+                const displayVal = diag.displayValue ? `<span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">${escapeHtml(diag.displayValue)}</span>` : '';
+                const solution = getAuditSolution(diag.id, diag);
+
                 const item = document.createElement('div');
                 item.className = "border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all";
                 item.innerHTML = `
                     <button onclick="toggleDetails('diag-${idx}')" class="w-full px-4 py-3.5 flex items-center justify-between text-left bg-white hover:bg-slate-50/50 transition-colors focus:outline-none cursor-pointer">
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-3 min-w-0 pr-2">
                             <span class="w-2.5 h-2.5 rounded-xs bg-amber-500 shrink-0"></span>
-                            <div>
-                                <h4 class="text-xs sm:text-sm font-semibold text-slate-800">${diag.title || ''}</h4>
-                                <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${diag.description ? diag.description.split('[')[0] : ''}</p>
+                            <div class="min-w-0">
+                                <h4 class="text-xs sm:text-sm font-semibold text-slate-800 truncate">${escapeHtml(diag.title || '')}</h4>
+                                <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${escapeHtml(diag.description ? diag.description.split('[')[0] : '')}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 shrink-0 ml-3">
@@ -1358,11 +1725,390 @@
                         </div>
                     </button>
                     <div id="diag-${idx}" class="hidden px-4 sm:px-5 py-4 bg-slate-50 border-t border-slate-100 text-xs text-slate-600">
-                        <p class="leading-relaxed">${diag.description ? diag.description.replace(/\[Learn more\]\(.*?\)/, '') : ''}</p>
+                        <p class="leading-relaxed mb-3 text-slate-700">${escapeHtml(diag.description ? diag.description.replace(/\\[Learn more\\].*$/i, '') : '')}</p>
+                        ${renderIssueDetailsTable(diag.details)}
+                        
+                        <!-- Inline Solution & Action Guide Box -->
+                        <div class="mt-4 p-3.5 sm:p-4 rounded-xl bg-amber-50/80 border border-amber-200/90 text-slate-800">
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                </span>
+                                <div class="min-w-0 flex-1">
+                                    <h5 class="text-xs font-bold text-amber-900 mb-1 flex items-center gap-1.5">
+                                        <span>💡 Recommended Fix & Implementation Guide</span>
+                                    </h5>
+                                    <p class="text-xs font-semibold text-amber-800 mb-1.5">${escapeHtml(solution.summary)}</p>
+                                    <div class="text-[11px] font-mono text-amber-950/90 bg-amber-100/60 p-2.5 rounded-lg border border-amber-200/60 whitespace-pre-wrap leading-relaxed">${escapeHtml(solution.action)}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
                 container.appendChild(item);
             });
+        }
+
+        // Render Issue Details Table helper
+        function renderIssueDetailsTable(details) {
+            if (!details || !details.items || details.items.length === 0) return '';
+            const items = details.items.slice(0, 5);
+            let html = `
+                <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white mb-3">
+                    <table class="w-full text-left border-collapse text-[11px] min-w-[360px]">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold">
+                                <th class="py-2 px-3">Item / Target URL</th>
+                                <th class="py-2 px-3 text-right">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 font-mono">
+            `;
+            items.forEach(it => {
+                const target = it.url || it.source || it.node?.snippet || it.selector || (typeof it === 'string' ? it : JSON.stringify(it).slice(0, 70));
+                const detail = it.node?.explanation || it.subItems?.type || it.wastedMs ? `${Math.round(it.wastedMs)} ms` : (it.totalBytes ? formatBytes(it.totalBytes) : '--');
+                html += `
+                    <tr>
+                        <td class="py-2 px-3 text-slate-700 truncate max-w-xs font-sans" title="${escapeHtml(target)}">${escapeHtml(target)}</td>
+                        <td class="py-2 px-3 text-right text-slate-500">${escapeHtml(detail)}</td>
+                    </tr>
+                `;
+            });
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            return html;
+        }
+
+        // Category Issues Management (Accessibility, Best Practices, SEO)
+        let currentCatIssues = [];
+
+        function renderCategoryIssues(lr) {
+            const categoriesToCheck = [
+                { key: 'accessibility', name: 'Accessibility', badgeClass: 'bg-purple-50 text-purple-700 border-purple-200' },
+                { key: 'best-practices', name: 'Best Practices', badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+                { key: 'seo', name: 'SEO', badgeClass: 'bg-blue-50 text-blue-700 border-blue-200' }
+            ];
+
+            const issues = [];
+            categoriesToCheck.forEach(catInfo => {
+                const cat = lr.categories?.[catInfo.key];
+                if (!cat || !cat.auditRefs) return;
+
+                cat.auditRefs.forEach(ref => {
+                    const audit = lr.audits?.[ref.id];
+                    if (audit && audit.score !== null && audit.score < 0.9) {
+                        issues.push({
+                            id: ref.id,
+                            catKey: catInfo.key,
+                            catName: catInfo.name,
+                            badgeClass: catInfo.badgeClass,
+                            score: audit.score,
+                            title: audit.title,
+                            description: audit.description,
+                            displayValue: audit.displayValue,
+                            details: audit.details
+                        });
+                    }
+                });
+            });
+
+            currentCatIssues = issues;
+            filterCatIssues('all');
+        }
+
+        function filterCatIssues(filter) {
+            ['all', 'accessibility', 'best-practices', 'seo'].forEach(f => {
+                const tabId = f === 'all' ? 'catTabAll' : (f === 'accessibility' ? 'catTabA11y' : (f === 'best-practices' ? 'catTabBp' : 'catTabSeo'));
+                const btn = document.getElementById(tabId);
+                if (!btn) return;
+                if (f === filter) {
+                    btn.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-blue-700 font-bold cursor-pointer whitespace-nowrap";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer whitespace-nowrap";
+                }
+            });
+
+            renderFilteredCatIssues(filter);
+        }
+
+        function renderFilteredCatIssues(filter) {
+            const container = document.getElementById('catIssuesList');
+            const countBadge = document.getElementById('catIssuesCountBadge');
+            if (!container || !countBadge) return;
+            container.innerHTML = '';
+
+            const list = filter === 'all' 
+                ? currentCatIssues 
+                : currentCatIssues.filter(item => item.catKey === filter);
+
+            countBadge.textContent = `${list.length} ${filter === 'all' ? 'total issues' : 'issues'}`;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 text-center text-slate-500 text-xs bg-slate-50 rounded-xl border border-slate-100">
+                        🎉 No issues detected for this category! Excellent compliance.
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach((issue, idx) => {
+                const solution = getAuditSolution(issue.id, issue);
+                const item = document.createElement('div');
+                item.className = "border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all";
+                item.innerHTML = `
+                    <button onclick="toggleDetails('cat-issue-${idx}')" class="w-full px-4 py-3.5 flex items-center justify-between text-left bg-white hover:bg-slate-50/50 transition-colors focus:outline-none cursor-pointer">
+                        <div class="flex items-start gap-3 min-w-0 pr-2">
+                            <span class="w-2.5 h-2.5 mt-1.5 rounded-xs shrink-0 ${issue.score === 0 ? 'bg-red-500' : 'bg-amber-500'}"></span>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2 mb-0.5">
+                                    <span class="text-[10px] font-bold px-1.5 py-0.2 rounded border ${issue.badgeClass}">${issue.catName}</span>
+                                    ${issue.displayValue ? `<span class="text-[10px] text-slate-500 font-mono">${escapeHtml(issue.displayValue)}</span>` : ''}
+                                </div>
+                                <h4 class="text-xs sm:text-sm font-semibold text-slate-800 truncate">${escapeHtml(issue.title || '')}</h4>
+                                <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">${escapeHtml(issue.description ? issue.description.replace(/\\[Learn more\\].*$/i, '') : '')}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <svg id="chevron-cat-issue-${idx}" class="w-4 h-4 text-slate-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="cat-issue-${idx}" class="hidden px-4 sm:px-5 py-4 bg-slate-50 border-t border-slate-100 text-xs text-slate-600">
+                        <p class="mb-3 text-slate-700 leading-relaxed">${escapeHtml(issue.description ? issue.description.replace(/\\[Learn more\\].*$/i, '') : '')}</p>
+                        ${renderIssueDetailsTable(issue.details)}
+                        
+                        <!-- Inline Solution & Action Guide Box -->
+                        <div class="mt-4 p-3.5 sm:p-4 rounded-xl bg-amber-50/80 border border-amber-200/90 text-slate-800">
+                            <div class="flex items-start gap-2.5">
+                                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                </span>
+                                <div class="min-w-0 flex-1">
+                                    <h5 class="text-xs font-bold text-amber-900 mb-1 flex items-center gap-1.5">
+                                        <span>💡 Recommended Fix & Implementation Guide</span>
+                                    </h5>
+                                    <p class="text-xs font-semibold text-amber-800 mb-1.5">${escapeHtml(solution.summary)}</p>
+                                    <div class="text-[11px] font-mono text-amber-950/90 bg-amber-100/60 p-2.5 rounded-lg border border-amber-200/60 whitespace-pre-wrap leading-relaxed">${escapeHtml(solution.action)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // ==========================================
+        // 🤖 AI FIX PLAN & PROMPT GENERATOR (.txt)
+        // ==========================================
+        function toggleAiPlanDropdown(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('aiPlanMenu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function closeAiPlanDropdown() {
+            const menu = document.getElementById('aiPlanMenu');
+            if (menu) menu.classList.add('hidden');
+        }
+
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('aiPlanDropdownWrapper');
+            if (dropdown && !dropdown.contains(e.target)) {
+                closeAiPlanDropdown();
+            }
+        });
+
+        function buildStrategyAuditText(name, lr) {
+            if (!lr) return `[${name.toUpperCase()} AUDIT DATA NOT AVAILABLE]\n\n`;
+
+            const cats = lr.categories || {};
+            const audits = lr.audits || {};
+            let txt = '';
+
+            txt += `--------------------------------------------------------------------------------\n`;
+            txt += `${name.toUpperCase()} SCORES & CORE WEB VITALS\n`;
+            txt += `--------------------------------------------------------------------------------\n`;
+            txt += `Scores:\n`;
+            txt += `  - Performance    : ${Math.round((cats.performance?.score || 0) * 100)}/100\n`;
+            txt += `  - Accessibility  : ${Math.round((cats.accessibility?.score || 0) * 100)}/100\n`;
+            txt += `  - Best Practices : ${Math.round((cats['best-practices']?.score || 0) * 100)}/100\n`;
+            txt += `  - SEO            : ${Math.round((cats.seo?.score || 0) * 100)}/100\n\n`;
+
+            txt += `Core Web Vitals Metrics:\n`;
+            txt += `  - First Contentful Paint (FCP)    : ${audits['first-contentful-paint']?.displayValue || '--'}\n`;
+            txt += `  - Largest Contentful Paint (LCP)  : ${audits['largest-contentful-paint']?.displayValue || '--'}\n`;
+            txt += `  - Total Blocking Time (TBT)       : ${audits['total-blocking-time']?.displayValue || '--'}\n`;
+            txt += `  - Cumulative Layout Shift (CLS)   : ${audits['cumulative-layout-shift']?.displayValue || '--'}\n`;
+            txt += `  - Speed Index (SI)                : ${audits['speed-index']?.displayValue || '--'}\n`;
+            txt += `  - Server Response Time (TTFB)     : ${audits['server-response-time']?.displayValue || '--'}\n\n`;
+
+            // Resource Breakdown
+            const resItems = audits['resource-summary']?.details?.items || [];
+            if (resItems.length > 0) {
+                txt += `Network Payload Distribution:\n`;
+                resItems.forEach(it => {
+                    txt += `  - ${it.label.padEnd(14)}: ${formatBytes(it.transferSize).padStart(10)} (${it.requestCount} requests)\n`;
+                });
+                txt += `\n`;
+            }
+
+            // Opportunities
+            const opps = Object.entries(audits)
+                .map(([id, a]) => ({ ...a, id: a.id || id }))
+                .filter(a => 
+                    a.details && 
+                    a.details.type === 'opportunity' && 
+                    (a.details.overallSavingsMs > 20 || a.details.overallSavingsBytes > 1024) &&
+                    a.score !== null && a.score < 0.9
+                )
+                .sort((a, b) => (b.details.overallSavingsMs || 0) - (a.details.overallSavingsMs || 0));
+
+            txt += `Opportunities & Speed Bottlenecks (${opps.length} items):\n`;
+            if (opps.length === 0) {
+                txt += `  (No high-impact opportunities detected!)\n\n`;
+            } else {
+                opps.forEach((opp, i) => {
+                    const savings = opp.details.overallSavingsMs 
+                        ? `${(opp.details.overallSavingsMs / 1000).toFixed(2)}s potential savings`
+                        : `${formatBytes(opp.details.overallSavingsBytes)} potential savings`;
+                    txt += `  ${i + 1}. [${opp.id}] ${opp.title} (${savings})\n`;
+                    txt += `     Details: ${opp.description ? opp.description.replace(/\\[Learn more\\].*$/i, '').trim() : ''}\n`;
+                    if (opp.details.items && opp.details.items.length > 0) {
+                        txt += `     Affected Resource URLs:\n`;
+                        opp.details.items.slice(0, 5).forEach(it => {
+                            const u = it.url || it.source || 'inline';
+                            const sz = it.totalBytes ? formatBytes(it.totalBytes) : '';
+                            const w = it.wastedMs ? `${Math.round(it.wastedMs)}ms` : (it.wastedBytes ? formatBytes(it.wastedBytes) : '');
+                            txt += `       * ${u} ${sz ? `[${sz}]` : ''} ${w ? `(Waste: ${w})` : ''}\n`;
+                        });
+                    }
+                    txt += `\n`;
+                });
+            }
+
+            // Diagnostics
+            const diagKeys = ['render-blocking-resources', 'uses-long-cache-ttl', 'dom-size', 'font-display', 'mainthread-work-breakdown', 'bootup-time', 'duplicated-javascript'];
+            const diags = diagKeys.map(k => audits[k] ? { ...audits[k], id: k } : null).filter(a => a && a.score !== null && a.score < 0.9);
+            txt += `Diagnostics Issues (${diags.length} items):\n`;
+            diags.forEach((d, i) => {
+                txt += `  ${i + 1}. [${d.id}] ${d.title} ${d.displayValue ? `(${d.displayValue})` : ''}\n`;
+                txt += `     Details: ${d.description ? d.description.replace(/\\[Learn more\\].*$/i, '').trim() : ''}\n`;
+                if (d.details?.items && d.details.items.length > 0) {
+                    txt += `     Sample Elements / Files:\n`;
+                    d.details.items.slice(0, 4).forEach(it => {
+                        const target = it.url || it.source || it.node?.snippet || it.selector || '';
+                        if (target) txt += `       * ${target}\n`;
+                    });
+                }
+                txt += `\n`;
+            });
+
+            return txt;
+        }
+
+        function generateAiPrompt(mode) {
+            const url = auditResults.testedUrl || 'https://example.com';
+            const dateStr = new Date().toLocaleString();
+            let txt = '';
+
+            txt += '================================================================================\n';
+            txt += '🚀 SPEEDCHECK ZHS - AI WEB PERFORMANCE OPTIMIZATION & CODE FIX PLAN\n';
+            txt += '================================================================================\n';
+            txt += `TARGET WEBSITE : ${url}\n`;
+            txt += `GENERATED DATE : ${dateStr}\n`;
+            txt += `AUDIT SCOPE    : ${mode === 'combined' ? 'COMBINED (Mobile & Desktop Analysis)' : mode.toUpperCase()}\n`;
+            txt += '================================================================================\n\n';
+
+            txt += '[MISSION FOR THE AI ASSISTANT]\n';
+            txt += 'You are an elite Full-Stack Web Performance Engineer, Google Core Web Vitals Specialist, and Systems Architect.\n';
+            txt += `Your objective is to examine the real Lighthouse audit data below for ${url} and generate step-by-step, production-ready code fixes and server configurations to achieve a 90+ score.\n\n`;
+
+            txt += '[REQUIRED OUTPUT STRUCTURE FROM AI]\n';
+            txt += 'When answering, please structure your recommendations as follows:\n';
+            txt += '1. EXECUTIVE SUMMARY & BIGGEST WINS: Identify the top 3-5 bottlenecks that will give the highest performance gains.\n';
+            txt += '2. CRITICAL RENDERING PATH & LCP FIXES: Provide exact code to eliminate render-blocking CSS/JS and optimize the hero LCP element.\n';
+            txt += '3. JAVASCRIPT & ASSET OPTIMIZATION: Instructions and code snippets to defer, code-split, or remove unused scripts identified below.\n';
+            txt += '4. CACHING & SERVER CONFIGURATION: Ready-to-copy server configs (.htaccess, Nginx, or Cloudflare rules) for caching and compression.\n';
+            txt += '5. TECH STACK SPECIFIC SOLUTIONS: Provide instructions tailored for common stacks (WordPress/PHP, Next.js/React, Laravel, or Vanilla HTML/CSS).\n';
+            txt += '6. ACCESSIBILITY & SEO CHECKLIST: Concrete fixes for failing accessibility contrast, tags, and meta information.\n\n';
+
+            if (mode === 'combined' || mode === 'mobile') {
+                txt += buildStrategyAuditText('Mobile', auditResults.mobile);
+            }
+            if (mode === 'combined' || mode === 'desktop') {
+                txt += buildStrategyAuditText('Desktop', auditResults.desktop);
+            }
+
+            txt += '================================================================================\n';
+            txt += 'END OF SPEEDCHECK ZHS AUDIT DATA - PLEASE COMMENCE OPTIMIZATION PLAN\n';
+            txt += '================================================================================\n';
+
+            return txt;
+        }
+
+        function downloadAiPlan(type) {
+            const promptText = generateAiPrompt(type || 'combined');
+            const cleanHost = (auditResults.testedUrl || 'website')
+                .replace(/^https?:\/\//i, '')
+                .replace(/[^a-zA-Z0-9_-]/g, '_')
+                .slice(0, 30);
+            const dateStamp = new Date().toISOString().slice(0, 10);
+            const filename = `speedcheck-ai-plan-${cleanHost}-${type || 'combined'}-${dateStamp}.txt`;
+
+            const blob = new Blob([promptText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showAiToast("Download Started!", `${filename} is ready to feed into your AI.`);
+        }
+
+        function copyAiPrompt() {
+            const promptText = generateAiPrompt('combined');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(promptText).then(() => {
+                    showAiToast("Copied to Clipboard!", "Universal AI Prompt copied. Paste it into ChatGPT, Claude, or Cursor.");
+                }).catch(err => {
+                    console.error("Clipboard copy failed:", err);
+                    showAiToast("Download Fallback", "Clipboard access denied. Downloading .txt file instead.");
+                    downloadAiPlan('combined');
+                });
+            } else {
+                downloadAiPlan('combined');
+            }
+        }
+
+        function showAiToast(title, msg) {
+            const toast = document.getElementById('aiToast');
+            const toastTitle = document.getElementById('aiToastTitle');
+            const toastMsg = document.getElementById('aiToastMsg');
+            if (!toast) return;
+
+            if (toastTitle) toastTitle.textContent = title;
+            if (toastMsg) toastMsg.textContent = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 4500);
         }
 
         function renderPassedAudits(audits) {
@@ -1629,5 +2375,18 @@
         // Initialize history on page load
         renderHistory();
     </script>
+    <!-- Toast Notification for Clipboard Copy -->
+    <div id="aiToast" class="fixed bottom-5 right-5 z-50 max-w-sm bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-800 flex items-center gap-3 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <div>
+            <p id="aiToastTitle" class="text-xs font-bold text-white">Copied to Clipboard!</p>
+            <p id="aiToastMsg" class="text-[11px] text-slate-400">Paste directly into ChatGPT or Claude to get fixes.</p>
+        </div>
+    </div>
+
 </body>
 </html>
