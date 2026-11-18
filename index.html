@@ -104,7 +104,7 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Brand / Logo -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-sm shadow-blue-500/20">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#ee4743] to-[#ff6b67] flex items-center justify-center text-white shadow-sm shadow-[#ee4743]/25">
                         <!-- Speedometer icon -->
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 2v2"></path>
@@ -118,7 +118,7 @@
                     <div>
                         <div class="flex items-center gap-1.5">
                             <h1 class="text-lg font-bold text-slate-900 tracking-tight flex items-center">
-                                SpeedCheck<span class="text-blue-600 font-extrabold ml-1.5">zhs</span>
+                                SpeedCheck<span class="text-[#ee4743] font-extrabold ml-1.5">zhs</span>
                             </h1>
                         </div>
                         <p class="text-[11px] text-slate-400 font-medium">Powered by Google Lighthouse &amp; PageSpeed v5</p>
@@ -154,8 +154,8 @@
     <!-- Hero / Input Section -->
     <section class="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 no-print">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold mb-4 shadow-xs">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ee4743]/10 border border-[#ee4743]/20 text-[#ee4743] text-xs font-semibold mb-4 shadow-xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#ee4743] animate-pulse"></span>
                 Instant Dual Mobile &amp; Desktop Audits
             </div>
             <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -166,7 +166,7 @@
             </p>
 
             <!-- Search Form Card -->
-            <div class="mt-6 sm:mt-8 bg-white rounded-2xl shadow-sm border border-slate-200/90 p-2 sm:p-2.5 transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
+            <div class="mt-6 sm:mt-8 bg-white rounded-2xl shadow-sm border border-slate-200/90 p-2 sm:p-2.5 transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-[#ee4743]/30 focus-within:border-[#ee4743]">
                 <form id="scanForm" onsubmit="event.preventDefault(); runScan();" class="flex flex-col sm:flex-row items-center gap-2">
                     <div class="relative flex-1 w-full">
                         <div class="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none text-slate-400">
@@ -185,7 +185,7 @@
                     <button 
                         type="submit" 
                         id="scanBtn" 
-                        class="w-full sm:w-auto px-7 py-3 sm:py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm shadow-blue-500/20 hover:shadow-md cursor-pointer"
+                        class="w-full sm:w-auto px-7 py-3 sm:py-3.5 bg-[#ee4743] hover:bg-[#dc3a36] active:bg-[#c9322e] text-white font-semibold text-sm rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm shadow-[#ee4743]/25 hover:shadow-md cursor-pointer"
                     >
                         <svg id="btnIconScan" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -222,7 +222,7 @@
             <!-- Status Banner -->
             <div id="statusBanner" class="mt-4 hidden transition-all">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium border" id="statusPill">
-                    <span id="statusSpinner" class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+                    <span id="statusSpinner" class="w-2 h-2 rounded-full bg-[#ee4743] animate-ping"></span>
                     <span id="statusMessage">Analyzing page...</span>
                 </div>
             </div>
@@ -237,8 +237,8 @@
             <div class="text-center mb-6">
                 <!-- Animated Pulse Radar -->
                 <div class="relative w-20 h-20 mx-auto flex items-center justify-center mb-4">
-                    <div class="absolute inset-0 rounded-full bg-blue-400/20 animate-radar"></div>
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/30">
+                    <div class="absolute inset-0 rounded-full bg-[#ee4743]/20 animate-radar"></div>
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#ee4743] to-[#ff6b67] flex items-center justify-center text-white shadow-md shadow-[#ee4743]/30">
                         <svg class="w-7 h-7 animate-spin" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -250,7 +250,7 @@
                 
                 <!-- Progress Bar -->
                 <div class="mt-5 w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200/60">
-                    <div id="loadingProgressBar" class="bg-gradient-to-r from-blue-500 to-indigo-600 h-2 rounded-full transition-all duration-700 ease-out" style="width: 15%"></div>
+                    <div id="loadingProgressBar" class="bg-gradient-to-r from-[#ee4743] to-[#ff6b67] h-2 rounded-full transition-all duration-700 ease-out" style="width: 15%"></div>
                 </div>
             </div>
 
@@ -377,10 +377,10 @@
                             id="aiPlanBtn" 
                             type="button" 
                             onclick="toggleAiPlanDropdown(event)" 
-                            class="inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-xs hover:shadow transition-all cursor-pointer"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-[#ee4743] hover:bg-[#dc3a36] text-white font-bold text-xs shadow-xs shadow-[#ee4743]/25 hover:shadow transition-all cursor-pointer"
                             title="Export Universal AI Fix Prompt (.txt)"
                         >
-                            <svg class="w-4 h-4 text-blue-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-red-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                             <span class="hidden xs:inline">AI Fix Plan</span>
@@ -405,13 +405,13 @@
                             <div class="py-1">
                                 <button 
                                     onclick="downloadAiPlan('combined'); closeAiPlanDropdown();" 
-                                    class="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 flex items-center gap-2.5 transition-colors cursor-pointer"
+                                    class="w-full px-4 py-2.5 text-left text-xs font-medium text-slate-700 hover:bg-red-50 hover:text-[#ee4743] flex items-center gap-2.5 transition-colors cursor-pointer"
                                 >
-                                    <span class="p-1.5 rounded-lg bg-blue-100 text-blue-600 shrink-0">
+                                    <span class="p-1.5 rounded-lg bg-[#ee4743]/10 text-[#ee4743] shrink-0">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     </span>
                                     <div>
-                                        <div class="font-bold text-slate-800">Download Combined Plan <span class="text-[10px] text-blue-600 font-semibold">(Recommended)</span></div>
+                                        <div class="font-bold text-slate-800">Download Combined Plan <span class="text-[10px] text-[#ee4743] font-semibold">(Recommended)</span></div>
                                         <div class="text-[10px] text-slate-400">Mobile + Desktop complete audit & code prompts</div>
                                     </div>
                                 </button>
