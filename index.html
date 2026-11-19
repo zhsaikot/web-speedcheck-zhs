@@ -124,7 +124,14 @@
 
                 <!-- Right Header Actions -->
                 <div class="flex items-center space-x-2 sm:space-x-3">
-                    <button id="openHistoryBtn" onclick="toggleHistoryDrawer()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-all cursor-pointer" title="View Recent Scans History">
+                    <button id="openMySitesBtn" onclick="openMySitesDrawer()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-all cursor-pointer" title="View Saved My Sites">
+                        <svg class="w-3.5 h-3.5 text-[#ee4743]" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        <span>My Sites</span>
+                        <span id="navMySitesBadge" class="hidden text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#ee4743]/15 text-[#ee4743]">0</span>
+                    </button>
+                    <button id="openHistoryBtn" onclick="openHistoryDrawer()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-all cursor-pointer" title="View Recent Scans History">
                         <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -207,8 +214,16 @@
                 <span>&bull;</span>
                 <button type="button" onclick="testUrl('https://bankheadortho.com')" class="text-slate-600 hover:text-[#ee4743] underline font-medium">bankheadortho.com</button>
                 <span>&bull;</span>
-                <button type="button" id="quickHistoryBtn" onclick="toggleHistoryDrawer()" class="text-[#ee4743] hover:text-[#dc3a36] font-semibold inline-flex items-center gap-1 cursor-pointer">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" id="quickMySitesBtn" onclick="openMySitesDrawer()" class="text-[#ee4743] hover:text-[#dc3a36] font-semibold inline-flex items-center gap-1 cursor-pointer">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <span>My Sites</span>
+                    <span id="subMySitesBadge" class="hidden text-[10px] px-1.5 py-0.2 rounded-full bg-[#ee4743]/10 text-[#ee4743] font-bold border border-[#ee4743]/20">0</span>
+                </button>
+                <span>&bull;</span>
+                <button type="button" id="quickHistoryBtn" onclick="openHistoryDrawer()" class="text-slate-600 hover:text-[#ee4743] font-medium inline-flex items-center gap-1 cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span>Recent Scans</span>
@@ -333,9 +348,23 @@
                             <span class="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider">Report for</span>
                             <span id="testedTime" class="text-[10px] sm:text-[11px] text-slate-400">Just now</span>
                         </div>
-                        <h2 id="testedUrlTitle" class="text-sm sm:text-base md:text-lg font-bold text-slate-900 truncate max-w-[130px] xs:max-w-[200px] sm:max-w-xs md:max-w-md">
-                            <a id="testedUrlLink" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-[#ee4743] transition-colors">https://example.com</a>
-                        </h2>
+                        <div class="flex flex-wrap items-center gap-2 mt-0.5">
+                            <h2 id="testedUrlTitle" class="text-sm sm:text-base md:text-lg font-bold text-slate-900 truncate max-w-[120px] xs:max-w-[180px] sm:max-w-xs md:max-w-md">
+                                <a id="testedUrlLink" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-[#ee4743] transition-colors">https://example.com</a>
+                            </h2>
+                            <button 
+                                id="saveCurrentSiteBtn" 
+                                type="button" 
+                                onclick="toggleSaveCurrentSite()" 
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all cursor-pointer bg-slate-50 hover:bg-[#ee4743]/10 text-slate-600 hover:text-[#ee4743] border-slate-200"
+                                title="Save to My Sites"
+                            >
+                                <svg id="saveCurrentSiteStar" class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                                <span id="saveCurrentSiteText">Save to My Sites</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -841,40 +870,19 @@
     <!-- History Slide-over Drawer & Backdrop -->
     <div id="historyDrawerBackdrop" onclick="closeHistoryDrawer()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none no-print"></div>
 
-    <aside id="historyDrawer" class="fixed top-0 right-0 bottom-0 w-full sm:w-[420px] max-w-full bg-white shadow-2xl z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out border-l border-slate-200 no-print">
+    <aside id="historyDrawer" class="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] max-w-full bg-white shadow-2xl z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out border-l border-slate-200 no-print">
         <!-- Drawer Header -->
-        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-[#ee4743]/10 border border-[#ee4743]/20 flex items-center justify-center text-[#ee4743]">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+        <div class="px-5 py-3.5 border-b border-slate-100 bg-slate-50/80">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-[#ee4743]/10 text-[#ee4743] flex items-center justify-center font-bold text-xs">⚡</span>
+                    <h3 class="text-sm font-bold text-slate-900">SpeedCheck Hub</h3>
                 </div>
-                <div>
-                    <h3 class="text-sm font-bold text-slate-900">Audit History</h3>
-                    <p class="text-[11px] text-slate-400">Last 10 tested websites</p>
-                </div>
-                <span id="drawerHistoryCountBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-700 ml-1">0/10</span>
-            </div>
-            
-            <div class="flex items-center gap-1.5">
-                <button 
-                    type="button" 
-                    onclick="clearAllHistory()" 
-                    id="drawerClearHistoryBtn" 
-                    class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
-                    title="Clear all recent audits"
-                >
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                    <span>Clear</span>
-                </button>
                 <button 
                     type="button" 
                     id="closeHistoryDrawerBtn"
                     onclick="closeHistoryDrawer()" 
-                    class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition-colors cursor-pointer"
+                    class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 flex items-center justify-center transition-colors cursor-pointer"
                     title="Close"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -882,16 +890,80 @@
                     </svg>
                 </button>
             </div>
+
+            <!-- Segmented Tab Switcher: My Sites vs Recent History -->
+            <div class="flex items-center p-1 bg-slate-200/70 rounded-xl text-xs font-semibold">
+                <button 
+                    id="drawerTabMySites" 
+                    onclick="switchDrawerTab('mysites')" 
+                    class="flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-[#ee4743] shadow-xs font-bold cursor-pointer"
+                >
+                    <svg class="w-3.5 h-3.5 text-[#ee4743]" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <span>My Sites</span>
+                    <span id="drawerMySitesCountBadge" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#ee4743]/15 text-[#ee4743]">0</span>
+                </button>
+                <button 
+                    id="drawerTabHistory" 
+                    onclick="switchDrawerTab('history')" 
+                    class="flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 cursor-pointer font-medium"
+                >
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Recent History</span>
+                    <span id="drawerHistoryCountBadge" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-300 text-slate-700">0</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Drawer Body (Scrollable List) -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-2.5" id="drawerHistoryList">
-            <!-- Populated dynamically via JS -->
+        <!-- My Sites View Container -->
+        <div id="drawerMySitesView" class="flex-1 flex flex-col min-h-0">
+            <!-- Add Site Form -->
+            <div class="p-3 bg-slate-50 border-b border-slate-100">
+                <form onsubmit="event.preventDefault(); addSiteToMySitesFromInput();" class="flex items-center gap-2">
+                    <input 
+                        id="addMySiteInput" 
+                        type="text" 
+                        placeholder="Add site URL (e.g. mysite.com)" 
+                        class="flex-1 px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-[#ee4743]"
+                        required
+                    >
+                    <button type="submit" class="px-3 py-1.5 bg-[#ee4743] hover:bg-[#dc3a36] text-white text-xs font-bold rounded-lg transition-all shrink-0 cursor-pointer">+ Save</button>
+                </form>
+            </div>
+
+            <!-- Saved Sites Scrollable List -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3" id="drawerMySitesList">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+
+        <!-- History View Container -->
+        <div id="drawerHistoryView" class="flex-1 flex flex-col min-h-0 hidden">
+            <div class="px-4 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-xs">
+                <span class="text-slate-500 font-medium">Last 10 tested sites</span>
+                <button 
+                    type="button" 
+                    onclick="clearAllHistory()" 
+                    id="drawerClearHistoryBtn" 
+                    class="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-red-600 cursor-pointer transition-colors"
+                    title="Clear all recent audits"
+                >
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <span>Clear All</span>
+                </button>
+            </div>
+            <!-- Drawer Body (Scrollable List) -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-2.5" id="drawerHistoryList">
+                <!-- Populated dynamically via JS -->
+            </div>
         </div>
 
         <!-- Drawer Footer -->
-        <div class="p-3.5 border-t border-slate-100 bg-slate-50/50 text-center text-[11px] text-slate-400">
-            Click any website to re-run audit immediately
+        <div class="p-3 border-t border-slate-100 bg-slate-50/50 text-center text-[11px] text-slate-400">
+            Click <strong class="text-slate-600">View Previous Report</strong> to see cached audit or <strong class="text-slate-600">Re-test</strong> to scan live.
         </div>
     </aside>
 
@@ -1126,6 +1198,10 @@
 
                 // Save to Recent Audits History (Max 10)
                 saveToHistory(rawUrl, mobilePerf, desktopPerf);
+
+                // Auto-update My Sites if site was previously saved
+                autoUpdateMySite(rawUrl, auditResults.mobile, auditResults.desktop);
+                updateSaveSiteButtonState(rawUrl);
 
                 // Apply strategy render
                 renderStrategy(activeStrategy);
@@ -2178,26 +2254,435 @@
         // ==========================================
         // RECENT AUDITS HISTORY & DRAWER (localStorage)
         // ==========================================
+        // ==========================================
+        // ⭐ MY SITES & RECENT HISTORY SUBSYSTEM
+        // ==========================================
+        const MY_SITES_KEY = 'speedcheck_zhs_mysites';
         const HISTORY_KEY = 'speedcheck_zhs_history';
+        let currentDrawerTab = 'mysites';
 
-        function getHistory() {
+        // Utility: Strip heavy base64 screenshots so reports fit in localStorage without exceeding quotas
+        function cleanReportForStorage(lr) {
+            if (!lr) return null;
             try {
-                const stored = localStorage.getItem(HISTORY_KEY);
-                return stored ? JSON.parse(stored) : [];
+                const clone = JSON.parse(JSON.stringify(lr));
+                if (clone.audits?.['final-screenshot']?.details) {
+                    delete clone.audits['final-screenshot'].details.data;
+                }
+                if (clone.audits?.['screenshot-thumbnails']) {
+                    delete clone.audits['screenshot-thumbnails'];
+                }
+                return clone;
+            } catch (_) {
+                return null;
+            }
+        }
+
+        // --- MY SITES STORAGE OPERATIONS ---
+        function getMySites() {
+            try {
+                const raw = localStorage.getItem(MY_SITES_KEY);
+                return raw ? JSON.parse(raw) : [];
             } catch (_) {
                 return [];
             }
         }
 
-        function getScoreBadgeClass(score) {
-            const num = typeof score === 'number' ? score : parseInt(score);
-            if (isNaN(num)) return 'bg-slate-100 text-slate-600 border-slate-200';
-            if (num >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-            if (num >= 50) return 'bg-amber-50 text-amber-700 border-amber-200';
-            return 'bg-red-50 text-red-700 border-red-200';
+        function isSiteSaved(url) {
+            if (!url) return false;
+            const norm = url.trim().toLowerCase().replace(/\/$/, '');
+            return getMySites().some(s => s.url.toLowerCase().replace(/\/$/, '') === norm);
+        }
+
+        function saveSiteToMySites(url, lrMobile, lrDesktop, customMobScore, customDeskScore) {
+            if (!url) return null;
+            let sites = getMySites();
+            const norm = url.trim().replace(/\/$/, '');
+            const existingIndex = sites.findIndex(s => s.url.toLowerCase().replace(/\/$/, '') === norm.toLowerCase());
+
+            const mobScore = lrMobile 
+                ? (lrMobile.categories?.performance?.score != null ? Math.round(lrMobile.categories.performance.score * 100) : null)
+                : (customMobScore ?? null);
+
+            const deskScore = lrDesktop 
+                ? (lrDesktop.categories?.performance?.score != null ? Math.round(lrDesktop.categories.performance.score * 100) : null)
+                : (customDeskScore ?? null);
+
+            const vitals = lrMobile ? {
+                fcp: lrMobile.audits?.['first-contentful-paint']?.displayValue || '--',
+                lcp: lrMobile.audits?.['largest-contentful-paint']?.displayValue || '--',
+                tbt: lrMobile.audits?.['total-blocking-time']?.displayValue || '--',
+                cls: lrMobile.audits?.['cumulative-layout-shift']?.displayValue || '--'
+            } : (existingIndex >= 0 ? sites[existingIndex].vitals : null);
+
+            const now = new Date();
+            const timeStr = `${now.toLocaleDateString([], { month: 'short', day: 'numeric' })}, ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+            const entry = {
+                id: existingIndex >= 0 ? sites[existingIndex].id : Date.now(),
+                url: norm,
+                mobileScore: mobScore,
+                desktopScore: deskScore,
+                vitals: vitals,
+                time: timeStr,
+                report: {
+                    mobile: cleanReportForStorage(lrMobile) || (existingIndex >= 0 ? sites[existingIndex].report?.mobile : null),
+                    desktop: cleanReportForStorage(lrDesktop) || (existingIndex >= 0 ? sites[existingIndex].report?.desktop : null)
+                }
+            };
+
+            if (existingIndex >= 0) {
+                sites[existingIndex] = entry;
+            } else {
+                sites.unshift(entry);
+            }
+
+            try {
+                localStorage.setItem(MY_SITES_KEY, JSON.stringify(sites));
+            } catch (e) {
+                console.warn("Storage warning, trimming report details:", e);
+                // If quota exceeded, omit heavy reports and retain metrics/scores
+                entry.report = null;
+                sites[0] = entry;
+                localStorage.setItem(MY_SITES_KEY, JSON.stringify(sites));
+            }
+
+            renderMySites();
+            return entry;
+        }
+
+        function autoUpdateMySite(url, lrMobile, lrDesktop) {
+            if (!url) return;
+            const norm = url.trim().replace(/\/$/, '');
+            if (isSiteSaved(norm)) {
+                saveSiteToMySites(norm, lrMobile, lrDesktop);
+            }
+        }
+
+        function removeSiteFromMySites(siteId, event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            try {
+                let sites = getMySites();
+                const site = sites.find(s => s.id === siteId);
+                sites = sites.filter(s => s.id !== siteId);
+                localStorage.setItem(MY_SITES_KEY, JSON.stringify(sites));
+                renderMySites();
+                updateSaveSiteButtonState(auditResults.testedUrl);
+                if (site) {
+                    showAiToast("Site Removed", `${site.url} has been removed from My Sites.`);
+                }
+            } catch (err) {
+                console.error("Failed to remove site:", err);
+            }
+        }
+
+        function toggleSaveCurrentSite() {
+            const url = auditResults.testedUrl;
+            if (!url) return;
+
+            if (isSiteSaved(url)) {
+                const site = getMySites().find(s => s.url.toLowerCase().replace(/\/$/, '') === url.toLowerCase().replace(/\/$/, ''));
+                if (site) {
+                    removeSiteFromMySites(site.id);
+                }
+            } else {
+                saveSiteToMySites(url, auditResults.mobile, auditResults.desktop);
+                showAiToast("Saved to My Sites! ⭐", `${url} and previous scores & reports are saved.`);
+            }
+            updateSaveSiteButtonState(url);
+        }
+
+        function updateSaveSiteButtonState(url) {
+            const btn = document.getElementById('saveCurrentSiteBtn');
+            const star = document.getElementById('saveCurrentSiteStar');
+            const text = document.getElementById('saveCurrentSiteText');
+            if (!btn || !star || !text) return;
+
+            const targetUrl = url || auditResults.testedUrl;
+            const saved = isSiteSaved(targetUrl);
+
+            if (saved) {
+                btn.className = "inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-lg border transition-all cursor-pointer bg-[#ee4743]/10 text-[#ee4743] border-[#ee4743]/30 hover:bg-[#ee4743]/20 shadow-2xs";
+                star.setAttribute('fill', '#ee4743');
+                star.classList.remove('text-slate-400');
+                star.classList.add('text-[#ee4743]');
+                text.textContent = "Saved in My Sites";
+            } else {
+                btn.className = "inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all cursor-pointer bg-slate-50 hover:bg-[#ee4743]/10 text-slate-600 hover:text-[#ee4743] border-slate-200";
+                star.setAttribute('fill', 'none');
+                star.classList.remove('text-[#ee4743]');
+                star.classList.add('text-slate-400');
+                text.textContent = "Save to My Sites";
+            }
+        }
+
+        function addSiteToMySitesFromInput() {
+            const input = document.getElementById('addMySiteInput');
+            if (!input) return;
+            let rawUrl = input.value.trim();
+            if (!rawUrl) return;
+
+            if (!/^https?:\/\//i.test(rawUrl)) {
+                rawUrl = 'https://' + rawUrl;
+            }
+            try {
+                new URL(rawUrl);
+            } catch (_) {
+                alert("Please enter a valid website URL (e.g. mysite.com)");
+                return;
+            }
+
+            if (isSiteSaved(rawUrl)) {
+                showAiToast("Already in My Sites", `${rawUrl} is already saved.`);
+                input.value = '';
+                return;
+            }
+
+            if (auditResults.testedUrl && auditResults.testedUrl.toLowerCase().replace(/\/$/, '') === rawUrl.toLowerCase().replace(/\/$/, '')) {
+                saveSiteToMySites(rawUrl, auditResults.mobile, auditResults.desktop);
+            } else {
+                const hist = getHistory().find(h => h.url.toLowerCase().replace(/\/$/, '') === rawUrl.toLowerCase().replace(/\/$/, ''));
+                saveSiteToMySites(rawUrl, null, null, hist ? hist.mobileScore : null, hist ? hist.desktopScore : null);
+            }
+
+            input.value = '';
+            showAiToast("Site Added! ⭐", `${rawUrl} has been added to My Sites.`);
+            updateSaveSiteButtonState(auditResults.testedUrl);
+        }
+
+        function viewSavedReport(siteId) {
+            const sites = getMySites();
+            const site = sites.find(s => s.id === siteId);
+            if (!site) return;
+
+            if (!site.report || (!site.report.mobile && !site.report.desktop)) {
+                showAiToast("Live Audit Required", `No cached full report found for ${site.url}. Running live audit...`);
+                retestMySite(encodeURIComponent(site.url), site.id);
+                return;
+            }
+
+            closeHistoryDrawer();
+
+            // Load saved report into state
+            auditResults.mobile = site.report.mobile || null;
+            auditResults.desktop = site.report.desktop || null;
+            auditResults.testedUrl = site.url;
+
+            // UI Elements
+            welcomePlaceholder.classList.add('hidden');
+            loadingDashboard.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            const urlLink = document.getElementById('testedUrlLink');
+            if (urlLink) {
+                urlLink.textContent = site.url;
+                urlLink.href = site.url;
+            }
+            urlInput.value = site.url;
+
+            const testedTimeEl = document.getElementById('testedTime');
+            if (testedTimeEl) {
+                testedTimeEl.textContent = `Saved report from ${site.time || 'previous test'}`;
+            }
+
+            // Update tab badges
+            const mobScore = auditResults.mobile?.categories?.performance?.score != null ? Math.round(auditResults.mobile.categories.performance.score * 100) : '--';
+            const deskScore = auditResults.desktop?.categories?.performance?.score != null ? Math.round(auditResults.desktop.categories.performance.score * 100) : '--';
+            const mobBadge = document.getElementById('tabMobileScoreBadge');
+            const deskBadge = document.getElementById('tabDesktopScoreBadge');
+            if (mobBadge) mobBadge.textContent = mobScore;
+            if (deskBadge) deskBadge.textContent = deskScore;
+
+            updateSaveSiteButtonState(site.url);
+            renderStrategy(activeStrategy);
+
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showAiToast("Previous Report Loaded!", `Displaying cached report & scores for ${site.url}`);
+        }
+
+        function retestMySite(encodedUrl, siteId) {
+            closeHistoryDrawer();
+            const url = decodeURIComponent(encodedUrl);
+            urlInput.value = url;
+            runScan();
+        }
+
+        function quickBookmarkFromHistory(encodedUrl, event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            const url = decodeURIComponent(encodedUrl);
+            if (isSiteSaved(url)) {
+                const site = getMySites().find(s => s.url.toLowerCase().replace(/\/$/, '') === url.toLowerCase().replace(/\/$/, ''));
+                if (site) removeSiteFromMySites(site.id);
+            } else {
+                const hist = getHistory().find(h => h.url.toLowerCase().replace(/\/$/, '') === url.toLowerCase().replace(/\/$/, ''));
+                // If it's active in auditResults, save with full reports
+                if (auditResults.testedUrl && auditResults.testedUrl.toLowerCase().replace(/\/$/, '') === url.toLowerCase().replace(/\/$/, '')) {
+                    saveSiteToMySites(url, auditResults.mobile, auditResults.desktop);
+                } else {
+                    saveSiteToMySites(url, null, null, hist ? hist.mobileScore : null, hist ? hist.desktopScore : null);
+                }
+                showAiToast("Saved to My Sites! ⭐", `${url} added to My Sites.`);
+            }
+            renderHistory();
+            renderMySites();
+            updateSaveSiteButtonState(auditResults.testedUrl);
+        }
+
+        function renderMySites() {
+            const listEl = document.getElementById('drawerMySitesList');
+            const countBadge = document.getElementById('drawerMySitesCountBadge');
+            const navBadge = document.getElementById('navMySitesBadge');
+            const subBadge = document.getElementById('subMySitesBadge');
+
+            const sites = getMySites();
+            const count = sites.length;
+
+            if (countBadge) countBadge.textContent = count;
+            if (navBadge) {
+                navBadge.textContent = count;
+                if (count > 0) navBadge.classList.remove('hidden');
+                else navBadge.classList.add('hidden');
+            }
+            if (subBadge) {
+                subBadge.textContent = count;
+                if (count > 0) subBadge.classList.remove('hidden');
+                else subBadge.classList.add('hidden');
+            }
+
+            if (!listEl) return;
+
+            if (count === 0) {
+                listEl.innerHTML = `
+                    <div class="py-14 px-4 text-center">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-[#ee4743]/10 text-[#ee4743] flex items-center justify-center mb-3">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800">No saved sites yet</h4>
+                        <p class="text-xs text-slate-400 max-w-xs mx-auto mt-1 leading-relaxed">
+                            Save your important websites here to monitor previous scores, Core Web Vitals, and restore full reports anytime.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = sites.map(site => {
+                const displayHost = site.url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+                const mobClass = getScoreBadgeClass(site.mobileScore);
+                const deskClass = getScoreBadgeClass(site.desktopScore);
+                const hasReport = site.report && (site.report.mobile || site.report.desktop);
+
+                return `
+                    <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white hover:border-[#ee4743]/40 hover:shadow-xs transition-all space-y-2.5">
+                        <!-- Top: Domain & Delete -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 min-w-0 pr-2">
+                                <span class="w-7 h-7 rounded-lg bg-[#ee4743]/10 text-[#ee4743] flex items-center justify-center shrink-0 font-bold text-xs">⭐</span>
+                                <div class="min-w-0">
+                                    <h4 class="text-xs font-bold text-slate-800 truncate" title="${escapeHtml(site.url)}">${escapeHtml(displayHost)}</h4>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">${site.time ? `Audited ${site.time}` : 'Saved site'}</p>
+                                </div>
+                            </div>
+                            <button 
+                                type="button" 
+                                onclick="removeSiteFromMySites(${site.id}, event)" 
+                                class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer shrink-0" 
+                                title="Remove from My Sites"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Previous Scores & Vitals -->
+                        <div class="flex items-center justify-between bg-slate-50/80 p-2 rounded-lg text-xs border border-slate-100">
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${mobClass}" title="Previous Mobile Score">📱 ${site.mobileScore ?? '--'}</span>
+                                <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${deskClass}" title="Previous Desktop Score">💻 ${site.desktopScore ?? '--'}</span>
+                            </div>
+                            ${site.vitals ? `
+                            <div class="flex items-center gap-2 text-[10px] text-slate-500 font-mono">
+                                <span>LCP: <strong class="text-slate-700">${site.vitals.lcp}</strong></span>
+                                <span>CLS: <strong class="text-slate-700">${site.vitals.cls}</strong></span>
+                            </div>
+                            ` : `<span class="text-[10px] text-slate-400 italic">Not tested yet</span>`}
+                        </div>
+
+                        <!-- Action Buttons: View Report & Re-test -->
+                        <div class="flex items-center gap-2 pt-1 border-t border-slate-100">
+                            ${hasReport ? `
+                            <button 
+                                type="button" 
+                                onclick="viewSavedReport(${site.id})" 
+                                class="flex-1 py-1.5 px-2 bg-slate-100 hover:bg-[#ee4743]/10 hover:text-[#ee4743] text-slate-700 text-[11px] font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                                title="Instantly load previous cached report"
+                            >
+                                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>View Report</span>
+                            </button>
+                            ` : ''}
+                            <button 
+                                type="button" 
+                                onclick="retestMySite('${encodeURIComponent(site.url)}', ${site.id})" 
+                                class="flex-1 py-1.5 px-2 bg-[#ee4743] hover:bg-[#dc3a36] text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+                                title="Run live PageSpeed audit now"
+                            >
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                <span>Re-test</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- DRAWER CONTROLS & TAB SWITCHING ---
+        function switchDrawerTab(tab) {
+            currentDrawerTab = tab;
+            const tabMySites = document.getElementById('drawerTabMySites');
+            const tabHistory = document.getElementById('drawerTabHistory');
+            const viewMySites = document.getElementById('drawerMySitesView');
+            const viewHistory = document.getElementById('drawerHistoryView');
+
+            if (tab === 'mysites') {
+                if (tabMySites) tabMySites.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-[#ee4743] shadow-xs font-bold cursor-pointer";
+                if (tabHistory) tabHistory.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 cursor-pointer font-medium";
+                if (viewMySites) viewMySites.classList.remove('hidden');
+                if (viewHistory) viewHistory.classList.add('hidden');
+                renderMySites();
+            } else {
+                if (tabHistory) tabHistory.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-[#ee4743] shadow-xs font-bold cursor-pointer";
+                if (tabMySites) tabMySites.className = "flex-1 py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 cursor-pointer font-medium";
+                if (viewHistory) viewHistory.classList.remove('hidden');
+                if (viewMySites) viewMySites.classList.add('hidden');
+                renderHistory();
+            }
+        }
+
+        function openMySitesDrawer() {
+            switchDrawerTab('mysites');
+            openDrawer();
         }
 
         function openHistoryDrawer() {
+            switchDrawerTab('history');
+            openDrawer();
+        }
+
+        function openDrawer() {
             const drawer = document.getElementById('historyDrawer');
             const backdrop = document.getElementById('historyDrawerBackdrop');
             if (!drawer || !backdrop) return;
@@ -2229,16 +2714,32 @@
             }
         }
 
-        // Close drawer on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeHistoryDrawer();
         });
+
+        // --- HISTORY OPERATIONS ---
+        function getHistory() {
+            try {
+                const stored = localStorage.getItem(HISTORY_KEY);
+                return stored ? JSON.parse(stored) : [];
+            } catch (_) {
+                return [];
+            }
+        }
+
+        function getScoreBadgeClass(score) {
+            const num = typeof score === 'number' ? score : parseInt(score);
+            if (isNaN(num)) return 'bg-slate-100 text-slate-600 border-slate-200';
+            if (num >= 90) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+            if (num >= 50) return 'bg-amber-50 text-amber-700 border-amber-200';
+            return 'bg-red-50 text-red-700 border-red-200';
+        }
 
         function saveToHistory(url, mobileScore, desktopScore) {
             try {
                 let history = getHistory();
                 const cleanUrl = url.trim();
-                // Remove existing entry for same url (case-insensitive)
                 history = history.filter(item => item.url.toLowerCase() !== cleanUrl.toLowerCase());
 
                 const now = new Date();
@@ -2253,7 +2754,6 @@
                     desktopScore: desktopScore
                 });
 
-                // Keep max 10
                 if (history.length > 10) {
                     history = history.slice(0, 10);
                 }
@@ -2274,8 +2774,7 @@
             const history = getHistory();
             const count = history ? history.length : 0;
 
-            // Update badge indicators
-            if (drawerCountBadge) drawerCountBadge.textContent = `${count}/10`;
+            if (drawerCountBadge) drawerCountBadge.textContent = count;
             if (navBadge) {
                 navBadge.textContent = count;
                 if (count > 0) navBadge.classList.remove('hidden');
@@ -2308,6 +2807,7 @@
                 const displayHost = item.url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
                 const mobClass = getScoreBadgeClass(item.mobileScore);
                 const deskClass = getScoreBadgeClass(item.desktopScore);
+                const saved = isSiteSaved(item.url);
 
                 return `
                     <div onclick="retestFromHistory('${encodeURIComponent(item.url)}')" class="group flex items-center justify-between p-3 rounded-xl border border-slate-200/80 bg-slate-50/60 hover:bg-white hover:border-[#ee4743]/40 hover:shadow-xs transition-all cursor-pointer">
@@ -2318,14 +2818,33 @@
                                 </svg>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-xs font-semibold text-slate-800 truncate group-hover:text-[#ee4743] transition-colors" title="${item.url}">${displayHost}</p>
+                                <p class="text-xs font-semibold text-slate-800 truncate group-hover:text-[#ee4743] transition-colors" title="${escapeHtml(item.url)}">${escapeHtml(displayHost)}</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5">${item.time || 'Recently'}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
                             <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${mobClass}" title="Mobile Score">📱 ${item.mobileScore}</span>
                             <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${deskClass}" title="Desktop Score">💻 ${item.desktopScore}</span>
-                            <button type="button" onclick="deleteHistoryItem(${item.id}, event)" class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-80 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer" title="Delete this entry">
+                            
+                            <!-- Bookmark to My Sites Button -->
+                            <button 
+                                type="button" 
+                                onclick="quickBookmarkFromHistory('${encodeURIComponent(item.url)}', event)" 
+                                class="p-1 rounded-md transition-colors cursor-pointer ${saved ? 'text-[#ee4743]' : 'text-slate-300 hover:text-[#ee4743] hover:bg-[#ee4743]/10'}" 
+                                title="${saved ? 'Saved in My Sites' : 'Save to My Sites'}"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="${saved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Delete Single Entry Button -->
+                            <button 
+                                type="button" 
+                                onclick="deleteHistoryItem(${item.id}, event)" 
+                                class="p-1 rounded-md text-slate-300 hover:text-red-500 hover:bg-red-50 transition-colors opacity-80 sm:opacity-0 sm:group-hover:opacity-100 cursor-pointer" 
+                                title="Delete this entry"
+                            >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
@@ -2369,7 +2888,8 @@
             runScan();
         }
 
-        // Initialize history on page load
+        // Initialize My Sites and History on page load
+        renderMySites();
         renderHistory();
     </script>
     <!-- Toast Notification for Clipboard Copy -->
